@@ -6,3 +6,9 @@
 - Team members should pull the latest `develop` branch before starting new work.
 - Code should be tested locally before creating a pull request.
 - Keep commits small and clear.
+
+## Resources for Images, Media & Icons
+
+Pexels – Free photos and videos (High-quality, royalty-free photos and videos that can be used for design, mockups, or project content.)
+- https://www.pexels.com
+- https://emojipedia.org/
