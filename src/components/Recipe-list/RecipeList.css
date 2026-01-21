@@ -1,0 +1,103 @@
+/* Page wrapper */
+.recipe-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px;
+  font-family: "Georgia", serif;
+  background-color: #f6efe8;
+}
+
+/* Page title */
+.recipe-list h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #5a3e36;
+  margin-bottom: 32px;
+}
+
+/* Recipe card */
+.recipe-list-item {
+  background-color: #fffaf6;
+  border-left: 6px solid #e17055;
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 36px;
+}
+
+/* Recipe title */
+.recipe-list-item h3 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #e17055, #f39c12);
+  padding: 12px 20px;
+  border-radius: 30px;
+  margin-bottom: 28px;
+}
+
+/* Section headings */
+.recipe-section h4 {
+  text-align: left;
+  color: #e17055;
+  letter-spacing: 0.15em;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+/* Ingredients and instructions container aligned left */
+.recipe-section {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Ingredients list */
+.recipe-section ul {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+/* Instructions list */
+.recipe-section ol {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+/* List items styling */
+.recipe-section ul li,
+.recipe-section ol li {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: #5a4a42;
+}
+
+/* Nutrition info */
+.nutrition-info {
+  display: flex;
+  justify-content: flex-start;
+  gap: 14px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.nutrition-info span {
+  background-color: #fdeae1;
+  color: #7a3f2d;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .recipe-list-item h3 {
+    font-size: 1.4rem;
+  }
+
+  .recipe-section ul,
+  .recipe-section ol {
+    padding-left: 1.2rem;
+  }
+}
