@@ -34,6 +34,18 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+.logo-section {
+    float: left;
+}
+ 
+.logo {
+    width: 120px;
+    height: auto;
+    margin-right: 20px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
 
 button {
   border-radius: 8px;
