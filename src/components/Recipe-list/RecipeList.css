@@ -4,21 +4,21 @@
   margin: 0 auto;
   padding: 32px;
   font-family: "Georgia", serif;
-  background-color: #f6efe8;
+  background-color: #F7F3EE;
 }
 
 /* Page title */
 .recipe-list h2 {
   text-align: center;
   font-size: 2rem;
-  color: #5a3e36;
+  color: #666666;
   margin-bottom: 32px;
 }
 
 /* Recipe card */
 .recipe-list-item {
-  background-color: #fffaf6;
-  border-left: 6px solid #e17055;
+  background-color: #ffffff;
+  border-left: 6px solid #666666;
   border-radius: 12px;
   padding: 32px;
   margin-bottom: 36px;
@@ -29,7 +29,7 @@
   text-align: center;
   font-size: 1.8rem;
   color: #ffffff;
-  background: linear-gradient(135deg, #e17055, #f39c12);
+  background: #666666;
   padding: 12px 20px;
   border-radius: 30px;
   margin-bottom: 28px;
@@ -38,7 +38,7 @@
 /* Section headings */
 .recipe-section h4 {
   text-align: left;
-  color: #e17055;
+  color: #666666;
   letter-spacing: 0.15em;
   font-size: 0.95rem;
   margin-bottom: 12px;
@@ -69,7 +69,7 @@
 .recipe-section ol li {
   margin-bottom: 6px;
   font-size: 0.95rem;
-  color: #5a4a42;
+  color: #666666;
 }
 
 /* Nutrition info */
@@ -82,8 +82,8 @@
 }
 
 .nutrition-info span {
-  background-color: #fdeae1;
-  color: #7a3f2d;
+  background-color: #F7F3EE;
+  color: #666666;
   padding: 8px 14px;
   border-radius: 20px;
   font-size: 0.8rem;
