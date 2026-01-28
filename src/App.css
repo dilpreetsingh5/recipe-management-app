@@ -1,10 +1,10 @@
 :root {
-  --color-primary: #E74C3C;
-  --color-secondary: #27AE60;
-  --color-accent: #F39C12;
-  --color-background: #FFF8F0;
-  --color-text: #2C3E50;
-  --color-border: #ECF0F1;
+  --color-primary: #666666;
+  --color-secondary: #666666;
+  --color-accent: #666666;
+  --color-background: #F7F3EE;
+  --color-text: #666666;
+  --color-border: #666666;
 
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
