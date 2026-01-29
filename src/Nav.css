@@ -1,0 +1,21 @@
+.navigation {
+  padding: 10px;
+  background-color: #F7F3EE; 
+  margin-bottom: 20px;
+  border-bottom: 1px solid #666666; 
+}
+
+.navigation a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #666666; 
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.navigation a:hover {
+  background-color: #FFFFFF; 
+}
+
+

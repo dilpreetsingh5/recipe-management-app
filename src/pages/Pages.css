@@ -1,33 +1,40 @@
-.home-page,
-.page {
-  max-width: 1100px;
-  margin: 0 auto;
+.home-page {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start; 
   padding: 24px;
-  background-color: #F7F3EE; 
-  font-family: 'Inter', sans-serif;
-  color: #666666;
 }
 
-.recipe-list,
-.recipe-form {
-  margin-bottom: 32px;
+.recipe-card {
+  flex: 1;
+  max-width: 400px;
 }
+
+.recipe-list {
+  flex: 2;
+}
+
+section {
+  padding: 20px;
+  background-color: #FFFFFF;
+  border: none;
+}
+
+.recipe-card,
+.recipe-list {
+  height: auto;
+}
+
 
 h2 {
   font-family: 'Playfair Display', serif;
   font-size: 28px;
   margin-bottom: 12px;
-  color: #666666; 
+  color: #666666;
 }
 
 p {
   font-size: 16px;
   line-height: 1.6;
-  color: #666666; 
-}
-
-section {
-  padding: 16px;
-  background-color: #FFFFFF; 
-  border: 1px solid #666666; 
+  color: #666666;
 }

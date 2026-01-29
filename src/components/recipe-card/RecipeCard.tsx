@@ -31,7 +31,7 @@ export default function RecipeCard() {
                   {recipe.servings} servings
                 </span>
               </div>
-              <button className="recipe-card-button">View Recipe</button>
+              <button className="recipe-card-button">Add to Favorites</button>
             </div>
           </article>
         ))}
