@@ -1,38 +1,37 @@
 import './App.css';
-import RecipeCard from './components/recipe-card/RecipeCard';
-import RecipeList from './components/Recipe-list/RecipeList';
-import RecipeForm from './components/recipe-form/RecipeForm';
-import logo from "./assets/Recipe_Management_Logo.png";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
+import Home from './pages/Home';
+import Favorites from './pages/Favorites';
+import AddRecipe from './pages/AddRecipe';
+import './Nav.css';
 
 function App() {
   return (
+    <BrowserRouter>
     <div className="app">
-      <header className="app-header">
-        <div className="logo-section">
-          <a href={logo} target="_blank" rel="noopener noreferrer">
-            <img
-              src={logo}
-              alt="Recipe Management Logo"
-              className="logo"
-            />
-          </a>
+      <Header />
+
+        {/* Navigation Bar */}
+        <nav className="navigation">
+          <Link to="/">Home</Link>
+          <Link to="/favorites">MyFavorites</Link>
+          <Link to="/add-recipe">AddRecipe</Link>
+        </nav>
+
+        {/* Main Content */}
+        <div className="app-main">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/add-recipe" element={<AddRecipe />} />
+          </Routes>
         </div>
 
-        <h1>Recipe Management System</h1>
-        <p>Discover, Save, and Share Amazing Recipes</p>
-      </header>
-
-      <main className="app-main">
-        <RecipeCard />
-        <RecipeList />
-        <RecipeForm />
-      </main>
-
-      <footer className="app-footer">
-        <p>Created by: Dilpreet Singh, Hasrat, Ranjot</p>
-        <p>&copy; 2024 Recipe Management System</p>
-      </footer>
+      <Footer />
     </div>
+    </BrowserRouter>
   );
 }
 
