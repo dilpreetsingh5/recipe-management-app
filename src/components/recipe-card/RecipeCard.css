@@ -1,8 +1,6 @@
 /* Simple Recipe Card Styles */
 
 .recipe-card {
-    max-width: 1000px;
-    margin: 0 auto;
     padding: 16px;
     background-color: #F7F3EE;
   }
