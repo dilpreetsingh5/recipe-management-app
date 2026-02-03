@@ -92,3 +92,36 @@
     background: #777;
 }
 
+.favorites-list {
+  list-style: none;
+  padding: 0;
+}
+
+.favorite-item {
+  display: flex;
+  justify-content: space-between; /* pushes apart */
+  align-items: center;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  background-color: #2b2b2b;
+  border-radius: 8px;
+}
+
+.recipe-title {
+  font-size: 18px;
+  color: white;
+}
+
+.remove-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background-color: #e60000;
+}
+
