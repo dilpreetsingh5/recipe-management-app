@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import { useState } from 'react';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
@@ -10,32 +10,61 @@ import './Nav.css';
 import type { Recipe } from './types/Recipe';
 
 function App() {
-    const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
 
-    const addToFavorites = (recipe: Recipe) => {
-        setFavoriteRecipes(prev => [...prev, recipe]);
-    };
-    return (
-    <BrowserRouter>
-        <div className="app">
-            <Header />
-            <nav className="navigation">
-                <Link to="/">Home</Link>
-                <Link to="/favorites">MyFavorites</Link>
-                <Link to="/add-recipe">AddRecipe</Link>
-            </nav>
+  const addToFavorites = (recipe: Recipe) => {
+    setFavoriteRecipes(prev =>
+      prev.some(r => r.id === recipe.id) ? prev : [...prev, recipe]
+    );
+  };
 
-            <div className="app-main">
-                <Routes>
-                    <Route path="/" element={<Home favoriteRecipes={favoriteRecipes} addToFavorites={addToFavorites} />} />
-                    <Route path="/favorites" element={<Favorites />} />
-                    <Route path="/add-recipe" element={<AddRecipe />} />
-                </Routes>
-            </div>
+  const removeFromFavorites = (id: number) => {
+    setFavoriteRecipes(prev => prev.filter(r => r.id !== id));
+  };
 
-            <Footer />
-        </div>
-    </BrowserRouter>
+  return (
+      <div className="app">
+        <Header />
+
+        {/* Navigation Interface (T.2) */}
+        <nav className="navigation">
+          <Link to="/">Home</Link>
+          <Link to="/favorites">My Favorites</Link>
+          <Link to="/add-recipe">Add Recipe</Link>
+        </nav>
+
+        <main className="app-main">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  favoriteRecipes={favoriteRecipes}
+                  addToFavorites={addToFavorites}
+                />
+              }
+            />
+
+            <Route
+              path="/favorites"
+              element={
+                <Favorites
+                  favoriteRecipes={favoriteRecipes}
+                  removeFromFavorites={removeFromFavorites}
+                />
+              }
+            />
+
+            <Route path="/add-recipe" 
+                   element={
+                    <AddRecipe
+                     />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
+    
   );
 }
 
