@@ -12,6 +12,7 @@ import type { Recipe } from './types/Recipe';
 function App() {
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
 
+
   const addToFavorites = (recipe: Recipe) => {
     setFavoriteRecipes(prev =>
       prev.some(r => r.id === recipe.id) ? prev : [...prev, recipe]
@@ -55,10 +56,8 @@ function App() {
               }
             />
 
-            <Route path="/add-recipe" 
-                   element={
-                    <AddRecipe
-                     />} />
+            <Route path="/add-recipe" element={<AddRecipe />} />
+
           </Routes>
         </main>
 
