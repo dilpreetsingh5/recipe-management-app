@@ -9,7 +9,7 @@ export const recipes: Recipe[] = [
     prepTime: 10,
     cookTime: 20,
     difficulty: "Medium",
-    servings: 4
+    servings: 4,
   },
   {
     id: 2,
