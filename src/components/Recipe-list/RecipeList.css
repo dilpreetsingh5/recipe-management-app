@@ -27,7 +27,7 @@
 /* Recipe title */
 .recipe-list-item h3 {
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 28px;
   color: #ffffff;
   background: #666666;
   padding: 12px 20px;
@@ -40,7 +40,7 @@
   text-align: left;
   color: #666666;
   letter-spacing: 0.15em;
-  font-size: 0.95rem;
+  font-size: 28px;
   margin-bottom: 12px;
 }
 
@@ -68,7 +68,7 @@
 .recipe-section ul li,
 .recipe-section ol li {
   margin-bottom: 6px;
-  font-size: 0.95rem;
+  font-size: 16px;
   color: #666666;
 }
 
@@ -86,7 +86,7 @@
   color: #666666;
   padding: 8px 14px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 20px;
   font-weight: 500;
 }
 

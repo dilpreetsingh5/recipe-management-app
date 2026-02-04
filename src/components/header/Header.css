@@ -20,7 +20,7 @@
 
 /* Title */
 .app-header h1 {
-  font-size: 2rem;
+  font-size: 32px;
   margin: 10px 0 5px;
   color: #ffffff;
   text-align: center;
@@ -28,7 +28,7 @@
 
 /* Subtitle */
 .app-header p {
-  font-size: 1.1rem;
+  font-size: 16px;
   color: #ffffff;
   text-align: center;
   margin: 0;

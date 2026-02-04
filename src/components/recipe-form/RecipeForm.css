@@ -10,7 +10,7 @@
 
 .form-title {
   color: #666666;
-  font-size: 2rem;
+  font-size: 32px;
   margin-bottom: 0.5rem;
   font-weight: 700;
   text-align: center;
@@ -20,7 +20,7 @@
   color: #666666;
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 1.1rem;
+  font-size: 16px;
 }
 
 .recipe-form-container {
@@ -44,7 +44,7 @@
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #666666;
-  font-size: 1rem;
+  font-size: 16px;
 }
 
 .form-label::after {
@@ -58,7 +58,7 @@
   padding: 0.75rem 1rem;
   border: 2px solid #666666;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 16px;
   font-family: inherit;
   transition: all 0.2s ease;
   background-color: #F7F3EE;
@@ -86,7 +86,7 @@
 }
 
 .form-hint {
-  font-size: 0.85rem;
+  font-size: 14px;
   color: #666666;
   margin-top: 0.25rem;
   font-style: italic;
@@ -98,7 +98,7 @@
   border: none;
   padding: 1rem 2rem;
   border-radius: 8px;
-  font-size: 1.1rem;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -126,7 +126,7 @@
   }
   
   .form-title {
-    font-size: 1.75rem;
+    font-size: 28px;
   }
 }
 
