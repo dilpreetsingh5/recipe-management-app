@@ -3,12 +3,14 @@ main {
     margin: 20px auto;
     padding: 0 20px;
     box-sizing: border-box;
+    background-color: #F7F3EE;
 }
 
 .app {
     width: 100vw;
     min-height: 100vh;
-    background-color: #333333;
+    background-color: #f7f3ee;
     display: flex;
     flex-direction: column;
+    border: 8px solid #666666;
 }

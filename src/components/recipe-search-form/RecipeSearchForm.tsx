@@ -52,11 +52,13 @@ export default function RecipeSearchForm({ recipes, setFilteredRecipes }: Recipe
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="search-input"
+                    aria-label="Search recipes by title or cuisine"
                 />
                 <select
                     value={cuisineFilter}
                     onChange={(e) => setCuisineFilter(e.target.value)}
                     className="filter-select"
+                    aria-label="Filter recipes by cuisine type"
                 >
                     <option value="">All Cuisines</option>
                     {uniqueCuisines.map(cuisine => (
@@ -67,6 +69,7 @@ export default function RecipeSearchForm({ recipes, setFilteredRecipes }: Recipe
                     value={difficultyFilter}
                     onChange={(e) => setDifficultyFilter(e.target.value)}
                     className="filter-select"
+                    aria-label="Filter recipes by difficulty level"
                 >
                     <option value="">All Difficulties</option>
                     {difficulties.map(diff => (

@@ -14,7 +14,7 @@
   
   .recipe-card-subtitle {
     text-align: center;
-    color: #777;
+    color: #666666;
     margin-bottom: 24px;
     font-size: 16px;
   }
@@ -71,14 +71,14 @@
   
   .recipe-card-cuisine {
     font-size: 14px;
-    color: #777;
+    color: #666666;
     margin-bottom: 12px;
   }
   
   /* Meta info */
   .recipe-card-meta {
     font-size: 14px;
-    color: #777;
+    color: #666666;
     margin-bottom: 12px;
   }
   
