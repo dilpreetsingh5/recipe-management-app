@@ -1,9 +1,10 @@
 
 .recipe-search-form {
-    background: #f7f6f6;
+    background: #f7f3ee;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 24px;
+    border: 1px solid #666666;
 }
 
 .search-inputs {
@@ -16,11 +17,11 @@
 .search-input,
 .filter-select {
     padding: 8px 12px;
-    border: 1px solid #999;
+    border: 1px solid #666666;
     border-radius: 4px;
     font-size: 16px;
     background: #ffffff;
-    color: #333;
+    color: #666666;
 }
 
 .search-input {
@@ -39,11 +40,23 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    background: #555;
+    background: #666666;
     color: #ffffff;
 }
 
 .search-button:hover,
 .clear-button:hover {
-    background: #777;
+    background: #555555;
+}
+
+.search-input:focus,
+.filter-select:focus {
+    outline: 2px solid #666666;
+    outline-offset: 1px;
+}
+
+.search-button:focus,
+.clear-button:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
 }

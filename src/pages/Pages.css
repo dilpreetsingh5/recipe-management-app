@@ -22,12 +22,12 @@
     font-family: 'Playfair Display', serif;
     font-size: 36px;
     margin-bottom: 8px;
-    color: #333;
+    color: #666666;
 }
 
 .page-header p {
     font-size: 16px;
-    color: #666;
+    color: #666666;
     margin-bottom: 16px;
 }
 
@@ -61,10 +61,11 @@
 .search-input,
 .filter-select {
     padding: 8px 12px;
-    border: 1px solid #999;
+    border: 2px solid #666666;
     border-radius: 4px;
     font-size: 16px;
     background: #ffffff;
+    color: #666666;
 }
 
 .search-input {
@@ -83,13 +84,13 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    background: #555;
+    background: #666666;
     color: #ffffff;
 }
 
 .search-button:hover,
 .clear-button:hover {
-    background: #777;
+    background: #555555;
 }
 
 .favorites-list {
@@ -103,13 +104,14 @@
   align-items: center;
   padding: 12px 20px;
   margin-bottom: 10px;
-  background-color: #2b2b2b;
+  background-color: #f7f3ee;
   border-radius: 8px;
+  border: 1px solid #666666;
 }
 
 .recipe-title {
   font-size: 16px;
-  color: white;
+  color: #666666;
 }
 
 .remove-btn {
@@ -154,9 +156,10 @@
  
 .sort-form select {
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 2px solid #666666;
   border-radius: 4px;
   font-size: 16px;
+  color: #666666;
 }
 
 .favorite-item:hover {
@@ -175,19 +178,19 @@
  
 .favorite-content h3 {
   margin: 0 0 0.5rem 0;
-  color: #333;
+  color: #666666;
   font-size: 28px;
 }
  
 .cuisine {
-  color: #666;
+  color: #666666;
   margin: 0.25rem 0;
   font-style: italic;
   font-size: 14px;
 }
  
 .difficulty {
-  color: #888;
+  color: #666666;
   margin: 0.25rem 0;
   font-size: 14px;
 }

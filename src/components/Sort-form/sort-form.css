@@ -6,11 +6,19 @@
   margin-right: 0.5rem;
   font-weight: bold;
   font-size: 16px;
+  color: #666666;
 }
  
 .sort-form select {
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 2px solid #666666;
   border-radius: 4px;
   font-size: 16px;
+  color: #666666;
+  background-color: #ffffff;
+}
+
+.sort-form select:focus {
+  outline: 2px solid #666666;
+  outline-offset: 1px;
 }
