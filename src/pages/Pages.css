@@ -125,3 +125,67 @@
   background-color: #e60000;
 }
 
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+ 
+.empty-state p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+ 
+.sort-form {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+.sort-form label {
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+ 
+.sort-form select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.favorite-item:hover {
+  transform: translateY(-2px);
+}
+ 
+.favorite-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+ 
+.favorite-content {
+  padding: 1rem;
+}
+ 
+.favorite-content h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+ 
+.cuisine {
+  color: #666;
+  margin: 0.25rem 0;
+  font-style: italic;
+}
+ 
+.difficulty {
+  color: #888;
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+ 
+ 
