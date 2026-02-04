@@ -1,0 +1,14 @@
+.sort-form {
+  margin-bottom: 1rem;
+}
+ 
+.sort-form label {
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+ 
+.sort-form select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
