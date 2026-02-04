@@ -26,7 +26,7 @@
 }
 
 .page-header p {
-    font-size: 18px;
+    font-size: 16px;
     color: #666;
     margin-bottom: 16px;
 }
@@ -108,7 +108,7 @@
 }
 
 .recipe-title {
-  font-size: 18px;
+  font-size: 16px;
   color: white;
 }
 
@@ -119,6 +119,7 @@
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .remove-btn:hover {
@@ -134,7 +135,7 @@
 }
  
 .empty-state p {
-  font-size: 1.2rem;
+  font-size: 16px;
   margin: 0.5rem 0;
 }
  
@@ -148,13 +149,14 @@
 .sort-form label {
   margin-right: 0.5rem;
   font-weight: bold;
+  font-size: 16px;
 }
  
 .sort-form select {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 16px;
 }
 
 .favorite-item:hover {
@@ -174,18 +176,20 @@
 .favorite-content h3 {
   margin: 0 0 0.5rem 0;
   color: #333;
+  font-size: 28px;
 }
  
 .cuisine {
   color: #666;
   margin: 0.25rem 0;
   font-style: italic;
+  font-size: 14px;
 }
  
 .difficulty {
   color: #888;
   margin: 0.25rem 0;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
  
  
