@@ -1,0 +1,31 @@
+.user-recipe-card {
+  position: relative;
+  background: #f7f3ee;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #666666;
+}
+
+.remove-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #666666;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.remove-button:hover {
+  background: #555555; 
+}
+
+.remove-button:focus {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}

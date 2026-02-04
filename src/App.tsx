@@ -1,38 +1,60 @@
 import './App.css';
-import RecipeCard from './components/recipe-card/RecipeCard';
-import RecipeList from './components/Recipe-list/RecipeList';
-import RecipeForm from './components/recipe-form/RecipeForm';
-import logo from "./assets/Recipe_Management_Logo.png";
+import { Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
+import Home from './pages/Home';
+import Favorites from './pages/Favorites';
+import AddRecipe from './pages/AddRecipe';
+import type { Recipe } from './types/Recipe';
 
 function App() {
+  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
+
+
+  const addToFavorites = (recipe: Recipe) => {
+    setFavoriteRecipes(prev =>
+      prev.some(r => r.id === recipe.id) ? prev : [...prev, recipe]
+    );
+  };
+
+  const removeFromFavorites = (id: number) => {
+    setFavoriteRecipes(prev => prev.filter(r => r.id !== id));
+  };
+
   return (
-    <div className="app">
-      <header className="app-header">
-        <div className="logo-section">
-          <a href={logo} target="_blank" rel="noopener noreferrer">
-            <img
-              src={logo}
-              alt="Recipe Management Logo"
-              className="logo"
+      <div className="app">
+        <Header />
+        <main className="app-main">
+          <Routes>
+            <Route 
+              path="/"
+              element={
+                <Home
+                  favoriteRecipes={favoriteRecipes}
+                  addToFavorites={addToFavorites}
+                />
+              }
             />
-          </a>
-        </div>
 
-        <h1>Recipe Management System</h1>
-        <p>Discover, Save, and Share Amazing Recipes</p>
-      </header>
+            <Route
+              path="/favorites"
+              element={
+                <Favorites
+                  favoriteRecipes={favoriteRecipes}
+                  removeFromFavorites={removeFromFavorites}
+                />
+              }
+            />
 
-      <main className="app-main">
-        <RecipeCard />
-        <RecipeList />
-        <RecipeForm />
-      </main>
+            <Route path="/add-recipe" element={<AddRecipe />} />
 
-      <footer className="app-footer">
-        <p>Created by: Dilpreet Singh, Hasrat, Ranjot</p>
-        <p>&copy; 2024 Recipe Management System</p>
-      </footer>
-    </div>
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
+    
   );
 }
 

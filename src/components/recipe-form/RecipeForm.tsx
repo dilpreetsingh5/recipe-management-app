@@ -1,4 +1,6 @@
 import './RecipeForm.css';
+import type { Recipe } from '../../types/Recipe';
+
 
 interface CuisineType {
   id: number;
@@ -10,7 +12,11 @@ interface DifficultyLevel {
   level: string;
 }
 
-export default function RecipeForm() {
+interface RecipeFormProps {
+  onAddRecipe: (recipe: Recipe) => void;
+}
+
+export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
   const cuisineTypes: CuisineType[] = [
     { id: 1, name: "Italian" },
     { id: 2, name: "Indian" },
@@ -32,12 +38,28 @@ export default function RecipeForm() {
   ];
 
   const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const data = Object.fromEntries(formData);
-    console.log('Recipe submitted:', data);
-    alert('Recipe submitted successfully!');
+  event.preventDefault();
+
+  const formData = new FormData(event.target as HTMLFormElement);
+  const data = Object.fromEntries(formData);
+
+  const newRecipe: Recipe = {
+    id: Date.now(),
+    title: data.title as string,
+    cuisineType: data.cuisineType as string,
+    difficulty: data.difficulty as "Easy" | "Medium" | "Hard",
+    prepTime: Number(data.prepTime),
+    cookTime: Number(data.cookTime),
+    servings: Number(data.servings),
+    ingredients: (data.ingredients as string).split('\n'),
+    instructions: (data.instructions as string).split('\n'),
   };
+
+  onAddRecipe(newRecipe);   // 
+
+  (event.target as HTMLFormElement).reset();
+};
+
 
   return (
     <section className="recipe-form">
