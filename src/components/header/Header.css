@@ -1,5 +1,5 @@
 .app-header {
-  background-color: #f7f3ee;
+  background-color: #666666;
   padding: 20px;
   border-bottom: 1px solid #666666;
 }
@@ -22,14 +22,14 @@
 .app-header h1 {
   font-size: 32px;
   margin: 10px 0 5px;
-  color: #666666;
+  color: #ffffff;
   text-align: center;
 }
 
 /* Subtitle */
 .app-header p {
   font-size: 16px;
-  color: #666666;
+  color: #ffffff;
   text-align: center;
   margin: 0;
 }

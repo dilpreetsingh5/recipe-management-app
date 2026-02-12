@@ -55,7 +55,7 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
     instructions: (data.instructions as string).split('\n'),
   };
 
-  onAddRecipe(newRecipe);   // 
+  onAddRecipe(newRecipe);   
 
   (event.target as HTMLFormElement).reset();
 };
