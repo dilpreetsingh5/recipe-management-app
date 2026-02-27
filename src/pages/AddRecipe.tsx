@@ -1,31 +1,21 @@
-import { useState } from 'react';
-import RecipeForm from '../components/recipe-form/RecipeForm';
-import UserRecipeCard from '../components/UserRecipeCard/UserRecipeCard';
-import type { Recipe } from '../types/Recipe';
+import RecipeForm from "../components/recipe-form/RecipeForm";
+import UserRecipeCard from "../components/UserRecipeCard/UserRecipeCard";
+import { useUserRecipes } from "../hooks/useUserRecipes";
 
 export default function AddRecipe() {
-  const [addedRecipes, setAddedRecipes] = useState<Recipe[]>([]);
-
-  const handleAddRecipe = (recipe: Recipe) => {
-    setAddedRecipes(prev => [...prev, recipe]);
-  };
-
-  const handleRemoveRecipe = (id: number) => {
-    setAddedRecipes(prev => prev.filter(r => r.id !== id));
-  };
+  const { recipes, isLoading, error, addRecipe, deleteRecipe } = useUserRecipes();
 
   return (
     <div>
-      <RecipeForm onAddRecipe={handleAddRecipe} />
+      <RecipeForm onAddRecipe={addRecipe} />
 
       <h2>Your Added Recipes</h2>
 
-      {addedRecipes.map(recipe => (
-        <UserRecipeCard
-          key={recipe.id}
-          recipe={recipe}
-          onRemove={handleRemoveRecipe}
-        />
+      {error ? <p style={{ color: "crimson" }}>{error}</p> : null}
+      {isLoading ? <p>Loading...</p> : null}
+
+      {recipes.map(recipe => (
+        <UserRecipeCard key={recipe.id} recipe={recipe} onRemove={deleteRecipe} />
       ))}
     </div>
   );

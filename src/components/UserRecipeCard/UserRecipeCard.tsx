@@ -1,11 +1,9 @@
-import type { Recipe } from '../../types/Recipe';
-import '../UserRecipeCard/UseRecipeCard.css';
+import type { UserRecipe } from "../../types/UserRecipe";
 
 interface Props {
-  recipe: Recipe;
+  recipe: UserRecipe;
   onRemove: (id: number) => void;
 }
-
 export default function UserRecipeCard({ recipe, onRemove }: Props) {
   return (
     <div className="user-recipe-card">
