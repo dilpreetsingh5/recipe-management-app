@@ -2,7 +2,7 @@ import { useState } from 'react';
 import RecipeCard from '../components/recipe-card/RecipeCard';
 import RecipeSearchForm from '../components/recipe-search-form/RecipeSearchForm';
 import "./Pages.css"
-import { recipes } from '../data/Recipe';
+import { recipes } from '../data/recipesData';
 import type { Recipe } from '../types/Recipe';
 
 interface HomeProps {
