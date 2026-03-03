@@ -9,4 +9,9 @@ export interface Recipe {
   servings: number;
   ingredients?: string[];
   instructions?: string[];
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  createdAt?: string;
 }
