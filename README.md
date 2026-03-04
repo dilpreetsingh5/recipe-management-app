@@ -84,6 +84,18 @@ Item	Description	Team Member(s)
 - Create sort form	(Hasrat)
 - Create navigation bar	(Hasrat )
 
+## Sprint 3 Kanban Items and Team Contributions
+Item	Description	Team Member(s)
+- Architecture Documentation (Dilpreet, Ranjot, Hasrat )
+- Refactor Shared Page State ( Ranjot )
+- Create Custom Hooks (Dilpreet )
+- Create Service Layer ( Hasrat )
+- Favorite Repository Implementation ( Hasrat )
+- Recipe Repository Implementation ( Dilpreet )
+- Create Recipe Test Data ( Dilpreet )
+- UserRecipeRepository Implementation ( Ranjot )
+- Refactor Component to Use Full Architecture ( Ranjot)
+
 
 ## Sprint Planning
 Sprint planning was completed before development. During sprint planning:

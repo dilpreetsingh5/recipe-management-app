@@ -94,21 +94,51 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
           </select>
         </div>
 
-        <div className="form-row">
-          <input type="number" name="prepTime" placeholder="Prep Time" required />
-          <input type="number" name="cookTime" placeholder="Cook Time" required />
+         <div className="form-row">
+          <input
+            type="number"
+            name="prepTime"
+            placeholder="Prep Time"
+            className="form-input"
+            required
+          />
+          <input
+            type="number"
+            name="cookTime"
+            placeholder="Cook Time"
+            className="form-input"
+            required
+          />
         </div>
 
         <div className="form-group">
-          <input type="number" name="servings" placeholder="Servings" required />
+          <input
+            type="number"
+            name="servings"
+            placeholder="Servings"
+            className="form-input"
+            required
+          />
         </div>
 
         <div className="form-group">
-          <textarea name="ingredients" rows={5} placeholder="Ingredients (one per line)" required />
+          <textarea
+            name="ingredients"
+            rows={5}
+            placeholder="Ingredients (one per line)"
+            className="form-textarea"
+            required
+          />
         </div>
 
         <div className="form-group">
-          <textarea name="instructions" rows={6} placeholder="Instructions (one per line)" required />
+          <textarea
+            name="instructions"
+            rows={6}
+            placeholder="Instructions (one per line)"
+            className="form-textarea"
+            required
+          />
         </div>
 
         <button type="submit" className="submit-button">

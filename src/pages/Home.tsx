@@ -1,21 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RecipeCard from '../components/recipe-card/RecipeCard';
 import RecipeSearchForm from '../components/recipe-search-form/RecipeSearchForm';
 import "./Pages.css"
-import { recipes } from '../data/Recipe';
 import type { Recipe } from '../types/Recipe';
+import { useRecipes } from '../hooks/useRecipe';
 
 interface HomeProps {
     favoriteRecipes: Recipe[];
     addToFavorites: (recipe: Recipe) => void;
 }
 
-export default function Home({ favoriteRecipes, addToFavorites}: HomeProps) {
-    const [filteredRecipes, setFilteredRecipes] = useState(recipes);
+export default function Home({ favoriteRecipes, addToFavorites }: HomeProps) {
+    const { recipes, loading, error } = useRecipes();
+    const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
+
+    // Sync filteredRecipes whenever the hook loads/refreshes recipes
+    useEffect(() => {
+        setFilteredRecipes(recipes);
+    }, [recipes]);
 
     const isFavorite = (recipeId: number) => {
         return favoriteRecipes.some(r => r.id === recipeId);
     };
+
+    if (loading) {
+        return (
+            <div className="home-page">
+                <header className="page-header">
+                    <h1>Browse Recipes</h1>
+                </header>
+                <p>Loading recipes...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="home-page">
+                <header className="page-header">
+                    <h1>Browse Recipes</h1>
+                </header>
+                <p style={{ color: 'crimson' }}>Error: {error}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="home-page">
@@ -43,5 +71,5 @@ export default function Home({ favoriteRecipes, addToFavorites}: HomeProps) {
                 ))}
             </div>
         </div>
-  );
+    );
 }
