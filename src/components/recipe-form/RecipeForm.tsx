@@ -1,21 +1,21 @@
 import './RecipeForm.css';
-import type { UserRecipe } from '../../types/UserRecipe';
-import React from 'react';
- 
-interface RecipeFormProps {
-  onAddRecipe: (recipe: Omit<UserRecipe, 'id'>) => Promise<UserRecipe>;
-}
- 
+import type { Recipe } from '../../types/Recipe';
+
+
 interface CuisineType {
   id: number;
   name: string;
 }
- 
+
 interface DifficultyLevel {
   id: number;
-  level: "Easy" | "Medium" | "Hard";
+  level: string;
 }
- 
+
+interface RecipeFormProps {
+  onAddRecipe: (recipe: Recipe) => void;
+}
+
 export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
   const cuisineTypes: CuisineType[] = [
     { id: 1, name: "Italian" },
@@ -29,46 +29,50 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
     { id: 9, name: "Mediterranean" },
     { id: 10, name: "Korean" }
   ];
- 
+
   const difficultyLevels: DifficultyLevel[] = [
     { id: 1, level: "Easy" },
     { id: 2, level: "Medium" },
-    { id: 3, level: "Hard" }
+    { id: 3, level: "Hard" },
+    { id: 4, level: "Expert" }
   ];
- 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
- 
-    const formData = new FormData(event.target as HTMLFormElement);
-    const data = Object.fromEntries(formData);
- 
-    const newRecipe: Omit<UserRecipe, 'id'> = {
-      title: data.title as string,
-      cuisineType: data.cuisineType as string,
-      difficulty: data.difficulty as "Easy" | "Medium" | "Hard",
-      prepTime: Number(data.prepTime),
-      cookTime: Number(data.cookTime),
-      servings: Number(data.servings),
-      ingredients: (data.ingredients as string).split('\n').filter(Boolean),
-      instructions: (data.instructions as string).split('\n').filter(Boolean),
-    };
- 
-    await onAddRecipe(newRecipe); // async call
- 
-    (event.target as HTMLFormElement).reset();
+
+  const handleSubmit = (event: React.FormEvent) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.target as HTMLFormElement);
+  const data = Object.fromEntries(formData);
+
+  const newRecipe: Recipe = {
+    id: Date.now(),
+    title: data.title as string,
+    cuisineType: data.cuisineType as string,
+    difficulty: data.difficulty as "Easy" | "Medium" | "Hard",
+    prepTime: Number(data.prepTime),
+    cookTime: Number(data.cookTime),
+    servings: Number(data.servings),
+    ingredients: (data.ingredients as string).split('\n'),
+    instructions: (data.instructions as string).split('\n'),
   };
- 
+
+  onAddRecipe(newRecipe);   // 
+
+  (event.target as HTMLFormElement).reset();
+};
+
+
   return (
-<section className="recipe-form">
-<h2 className="form-title">Share Your Recipe</h2>
-<p className="form-description">Add your delicious recipe to our community collection</p>
-<form onSubmit={handleSubmit} className="recipe-form-container">
+    <section className="recipe-form">
+      <h2 className="form-title">Share Your Recipe</h2>
+      <p className="form-description">Add your delicious recipe to our community collection</p>
+      
+      <form onSubmit={handleSubmit} className="recipe-form-container">
         {/* Recipe Title */}
-<div className="form-group">
-<label htmlFor="recipeTitle" className="form-label">
+        <div className="form-group">
+          <label htmlFor="recipeTitle" className="form-label">
             Recipe Title *
-</label>
-<input
+          </label>
+          <input
             type="text"
             id="recipeTitle"
             name="title"
@@ -76,55 +80,57 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
             placeholder="e.g., Classic Spaghetti Carbonara"
             required
           />
-</div>
- 
-        {/* Cuisine Type */}
-<div className="form-group">
-<label htmlFor="cuisineType" className="form-label">
+        </div>
+
+        {/* Cuisine Type - Rendered iteratively from list */}
+        <div className="form-group">
+          <label htmlFor="cuisineType" className="form-label">
             Cuisine Type *
-</label>
-<select 
+          </label>
+          <select 
             id="cuisineType" 
             name="cuisineType" 
             className="form-select"
             required
->
-<option value="">Select a cuisine type</option>
+          >
+            <option value="">Select a cuisine type</option>
             {cuisineTypes.map((cuisine) => (
-<option key={cuisine.id} value={cuisine.name}>
+              <option key={cuisine.id} value={cuisine.name.toLowerCase()}>
                 {cuisine.name}
-</option>
+              </option>
             ))}
-</select>
-</div>
- 
-        {/* Difficulty Level */}
-<div className="form-group">
-<label htmlFor="difficulty" className="form-label">
+          </select>
+          <p className="form-hint">Iteratively rendered from cuisineTypes array</p>
+        </div>
+
+        {/* Difficulty Level - Rendered iteratively from list */}
+        <div className="form-group">
+          <label htmlFor="difficulty" className="form-label">
             Difficulty Level *
-</label>
-<select 
+          </label>
+          <select 
             id="difficulty" 
             name="difficulty" 
             className="form-select"
             required
->
-<option value="">Select difficulty</option>
+          >
+            <option value="">Select difficulty</option>
             {difficultyLevels.map((level) => (
-<option key={level.id} value={level.level}>
+              <option key={level.id} value={level.level.toLowerCase()}>
                 {level.level}
-</option>
+              </option>
             ))}
-</select>
-</div>
- 
+          </select>
+          <p className="form-hint">Iteratively rendered from difficultyLevels array</p>
+        </div>
+
         {/* Prep & Cook Time */}
-<div className="form-row">
-<div className="form-group">
-<label htmlFor="prepTime" className="form-label">
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="prepTime" className="form-label">
               Prep Time (minutes) *
-</label>
-<input
+            </label>
+            <input
               type="number"
               id="prepTime"
               name="prepTime"
@@ -133,12 +139,13 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
               placeholder="15"
               required
             />
-</div>
-<div className="form-group">
-<label htmlFor="cookTime" className="form-label">
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="cookTime" className="form-label">
               Cook Time (minutes) *
-</label>
-<input
+            </label>
+            <input
               type="number"
               id="cookTime"
               name="cookTime"
@@ -147,15 +154,15 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
               placeholder="30"
               required
             />
-</div>
-</div>
- 
+          </div>
+        </div>
+
         {/* Servings */}
-<div className="form-group">
-<label htmlFor="servings" className="form-label">
+        <div className="form-group">
+          <label htmlFor="servings" className="form-label">
             Number of Servings *
-</label>
-<input
+          </label>
+          <input
             type="number"
             id="servings"
             name="servings"
@@ -164,42 +171,50 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
             placeholder="4"
             required
           />
-</div>
- 
+        </div>
+
         {/* Ingredients */}
-<div className="form-group">
-<label htmlFor="ingredients" className="form-label">
+        <div className="form-group">
+          <label htmlFor="ingredients" className="form-label">
             Ingredients *
-</label>
-<textarea
+          </label>
+          <textarea
             id="ingredients"
             name="ingredients"
             className="form-textarea"
             rows={5}
-            placeholder="Enter each ingredient on a new line"
+            placeholder="Enter each ingredient on a new line:
+• 400g spaghetti
+• 200g pancetta
+• 4 large eggs
+• 100g Pecorino Romano cheese"
             required
           />
-</div>
- 
+        </div>
+
         {/* Instructions */}
-<div className="form-group">
-<label htmlFor="instructions" className="form-label">
+        <div className="form-group">
+          <label htmlFor="instructions" className="form-label">
             Instructions *
-</label>
-<textarea
+          </label>
+          <textarea
             id="instructions"
             name="instructions"
             className="form-textarea"
             rows={6}
-            placeholder="Enter step-by-step instructions"
+            placeholder="Enter step-by-step instructions:
+1. Bring salted water to boil and cook spaghetti
+2. While pasta cooks, dice pancetta and cook until crispy
+3. In a bowl, whisk together eggs and grated cheese"
             required
           />
-</div>
- 
+        </div>
+
+        {/* Submit Button */}
         <button type="submit" className="submit-button">
           🍳 Submit Recipe
-</button>
-</form>
-</section>
+        </button>
+      </form>
+    </section>
   );
 }
