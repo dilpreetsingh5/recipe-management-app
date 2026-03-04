@@ -1,6 +1,10 @@
 import './RecipeForm.css';
-import type { Recipe } from '../../types/Recipe';
+import type { UserRecipe } from '../../types/UserRecipe';
+import React from 'react';
 
+interface RecipeFormProps {
+  onAddRecipe: (recipe: Omit<UserRecipe, 'id'>) => Promise<UserRecipe>;
+}
 
 interface CuisineType {
   id: number;
@@ -9,14 +13,11 @@ interface CuisineType {
 
 interface DifficultyLevel {
   id: number;
-  level: string;
-}
-
-interface RecipeFormProps {
-  onAddRecipe: (recipe: Recipe) => void;
+  level: "Easy" | "Medium" | "Hard";
 }
 
 export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
+
   const cuisineTypes: CuisineType[] = [
     { id: 1, name: "Italian" },
     { id: 2, name: "Indian" },
@@ -33,40 +34,40 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
   const difficultyLevels: DifficultyLevel[] = [
     { id: 1, level: "Easy" },
     { id: 2, level: "Medium" },
-    { id: 3, level: "Hard" },
-    { id: 4, level: "Expert" }
+    { id: 3, level: "Hard" }
   ];
 
-  const handleSubmit = (event: React.FormEvent) => {
-  event.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-  const formData = new FormData(event.target as HTMLFormElement);
-  const data = Object.fromEntries(formData);
+    const formData = new FormData(event.target as HTMLFormElement);
+    const data = Object.fromEntries(formData);
 
-  const newRecipe: Recipe = {
-    id: Date.now(),
-    title: data.title as string,
-    cuisineType: data.cuisineType as string,
-    difficulty: data.difficulty as "Easy" | "Medium" | "Hard",
-    prepTime: Number(data.prepTime),
-    cookTime: Number(data.cookTime),
-    servings: Number(data.servings),
-    ingredients: (data.ingredients as string).split('\n'),
-    instructions: (data.instructions as string).split('\n'),
+    const newRecipe: Omit<UserRecipe, 'id'> = {
+      title: data.title as string,
+      cuisineType: data.cuisineType as string,
+      difficulty: data.difficulty as "Easy" | "Medium" | "Hard",
+      prepTime: Number(data.prepTime),
+      cookTime: Number(data.cookTime),
+      servings: Number(data.servings),
+      ingredients: (data.ingredients as string).split('\n').filter(Boolean),
+      instructions: (data.instructions as string).split('\n').filter(Boolean),
+    };
+
+    await onAddRecipe(newRecipe);
+
+    (event.target as HTMLFormElement).reset();
   };
-
-  onAddRecipe(newRecipe);   // 
-
-  (event.target as HTMLFormElement).reset();
-};
-
 
   return (
     <section className="recipe-form">
       <h2 className="form-title">Share Your Recipe</h2>
-      <p className="form-description">Add your delicious recipe to our community collection</p>
-      
+      <p className="form-description">
+        Add your delicious recipe to our community collection
+      </p>
+
       <form onSubmit={handleSubmit} className="recipe-form-container">
+
         {/* Recipe Title */}
         <div className="form-group">
           <label htmlFor="recipeTitle" className="form-label">
@@ -82,50 +83,49 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
           />
         </div>
 
-        {/* Cuisine Type - Rendered iteratively from list */}
+        {/* Cuisine Type */}
         <div className="form-group">
           <label htmlFor="cuisineType" className="form-label">
             Cuisine Type *
           </label>
-          <select 
-            id="cuisineType" 
-            name="cuisineType" 
+          <select
+            id="cuisineType"
+            name="cuisineType"
             className="form-select"
             required
           >
             <option value="">Select a cuisine type</option>
             {cuisineTypes.map((cuisine) => (
-              <option key={cuisine.id} value={cuisine.name.toLowerCase()}>
+              <option key={cuisine.id} value={cuisine.name}>
                 {cuisine.name}
               </option>
             ))}
           </select>
-          <p className="form-hint">Iteratively rendered from cuisineTypes array</p>
         </div>
 
-        {/* Difficulty Level - Rendered iteratively from list */}
+        {/* Difficulty Level */}
         <div className="form-group">
           <label htmlFor="difficulty" className="form-label">
             Difficulty Level *
           </label>
-          <select 
-            id="difficulty" 
-            name="difficulty" 
+          <select
+            id="difficulty"
+            name="difficulty"
             className="form-select"
             required
           >
             <option value="">Select difficulty</option>
             {difficultyLevels.map((level) => (
-              <option key={level.id} value={level.level.toLowerCase()}>
+              <option key={level.id} value={level.level}>
                 {level.level}
               </option>
             ))}
           </select>
-          <p className="form-hint">Iteratively rendered from difficultyLevels array</p>
         </div>
 
         {/* Prep & Cook Time */}
         <div className="form-row">
+
           <div className="form-group">
             <label htmlFor="prepTime" className="form-label">
               Prep Time (minutes) *
@@ -140,7 +140,7 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="cookTime" className="form-label">
               Cook Time (minutes) *
@@ -155,6 +155,7 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
               required
             />
           </div>
+
         </div>
 
         {/* Servings */}
@@ -214,6 +215,7 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
         <button type="submit" className="submit-button">
           🍳 Submit Recipe
         </button>
+
       </form>
     </section>
   );
