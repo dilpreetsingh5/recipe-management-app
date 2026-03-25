@@ -110,6 +110,6 @@ RecipeService                (business logic, validation, filtering)
 RecipeRepository             (data access only)
     ↓
 recipesData.ts               (test data)
-```
+```r
 
 Each layer only depends on the layer below it. That's the main point of this architecture — it keeps things organized and makes it easier to change one part without breaking everything else.
