@@ -3,15 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "workspaces": [
-    "apps/*",
-    "shared/*"
-  ],
   "scripts": {
-    "dev": "npm run dev -w apps/frontend",
-    "build": "npm run build -w apps/frontend",
-    "lint": "npm run lint -w apps/frontend",
-    "preview": "npm run preview -w apps/frontend"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.2.0",

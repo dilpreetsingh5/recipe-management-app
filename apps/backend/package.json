@@ -1,0 +1,14 @@
+{
+  "name": "recipe-management-backend",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"No development script configured yet\"",
+    "build": "echo \"No build script configured yet\"",
+    "start": "echo \"No start script configured yet\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "~5.9.3"
+  }
+}
