@@ -116,6 +116,14 @@ A `STYLEGUIDE.md` file is included at the root of the project. It describes:
 ## Footer Update
 The footer copyright year has been updated to reflect the current year.
 
+## Development Database Setup
+
+This project uses PostgreSQL for development.
+
+### Start the database
+```bash
+docker run --name recipe-management-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=recipe_management_dev -p 5432:5432 -d postgres
+
 ## Authors
 - Dilpreet  
 - Ranjot  
