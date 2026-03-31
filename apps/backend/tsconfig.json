@@ -3,11 +3,11 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "target": "ES2022",
     "esModuleInterop": true,
     "sourceMap": true
   },
-  "include": ["src", "../../shared"]
+  "include": ["src"]
 }

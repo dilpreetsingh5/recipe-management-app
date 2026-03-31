@@ -14,4 +14,11 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', message: 'Recipe API is running' });
 });
 
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 export default app;

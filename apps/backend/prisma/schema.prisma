@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
 }
 
 model UserRecipe {
@@ -20,8 +20,16 @@ model UserRecipe {
   prepTime     Int
   cookTime     Int
   servings     Int
-  ingredients  String[]
-  instructions String[]
+  ingredients  String
+  instructions String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model Favorite {
+  id        Int @id @default(autoincrement())
+  userId    Int
+  recipeId  Int
+
+  @@unique([userId, recipeId])
 }
