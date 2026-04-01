@@ -1,5 +1,5 @@
 import type { Recipe } from '../../../../shared/types/Recipe';
-import { recipesData } from '../data/recipesData.ts';
+import { recipesData } from '../data/recipesData';
 
 export class RecipeRepository {
     private static recipes: Recipe[] = [...recipesData];
