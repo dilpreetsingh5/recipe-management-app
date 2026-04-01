@@ -96,6 +96,25 @@ Item	Description	Team Member(s)
 - UserRecipeRepository Implementation ( Ranjot )
 - Refactor Component to Use Full Architecture ( Ranjot)
 
+## Sprint 4 Kanban Items and Team Contributions
+
+| Item | Description | Team Member(s) |
+|------|------------|----------------|
+| Backend Setup | Set up backend project | Dilpreet |
+| Prisma Setup | Set up Prisma ORM | Dilpreet |
+| Database Setup | Set up development database | Ranjot |
+| Database Schema | Finalize database schema | Team |
+| Recipe Endpoints | Create recipe endpoints | Dilpreet |
+| Favorite Endpoints | Create favorite endpoints | Hasrat |
+| User Recipe Endpoints | Create user recipe endpoints | Ranjot |
+| CORS Setup | Set up CORS | Hasrat |
+| Recipe Repository Integration | Connect recipe repository to backend | Dilpreet |
+| Favorite Repository Integration | Connect favorite repository to backend | Hasrat |
+| User Recipe Repository Integration | Connect user recipe repository to backend | Ranjot |
+| Database Seeding | Add database seed script | Dilpreet |
+| Recipe Persistence Testing | Test recipe persistence | Dilpreet |
+| Favorite Persistence Testing | Test favorite persistence | Hasrat |
+| User Recipe Persistence Testing | Test user recipe persistence | Ranjot |
 
 ## Sprint Planning
 Sprint planning was completed before development. During sprint planning:
