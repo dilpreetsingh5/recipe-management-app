@@ -1,64 +1,57 @@
+import axios from 'axios';
 import type { Favorite } from '../../../../shared/types/Favorite';
-import { favoritesData } from "../data/FavoritesData";
-
+ 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
+ 
 export class FavoriteRepository {
-  private static favorites: Favorite[] = favoritesData;
-
-  // Get all favorites //
+  // Get all favorites
   static async getAll(): Promise<Favorite[]> {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(this.favorites), 100);
-    });
+    try {
+      const response = await axios.get(`${API_URL}/favorites`);
+      return response.data;
+    } catch (error: unknown) {
+      console.error('Failed to fetch favorites:', error);
+      throw new Error('Failed to fetch favorites');
+    }
   }
-
-  // Add recipe to favorites//
+ 
+  // Add recipe to favorites
   static async add(recipeId: number): Promise<Favorite> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-
-        if (this.favorites.some(f => f.recipeId === recipeId)) {
-          reject(new Error("Recipe already favorited"));
-          return;
-        }
-
-        const newFavorite: Favorite = {
-          id: Date.now(),
-          recipeId,
-          addedAt: new Date().toISOString()
-        };
-
-        this.favorites.push(newFavorite);
-        resolve(newFavorite);
-
-      }, 100);
-    });
+    try {
+      const response = await axios.post(`${API_URL}/favorites`, { recipeId });
+      return response.data;
+    } catch (error: unknown) {
+      console.error('Failed to add favorite:', error);
+      throw new Error('Failed to add favorite');
+    }
   }
-
-  // Remove recipe from favorites //
+ 
+  // Remove recipe from favorites (find id first, delete by id)
   static async remove(recipeId: number): Promise<void> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-
-        const index = this.favorites.findIndex(f => f.recipeId === recipeId);
-
-        if (index === -1) {
-          reject(new Error("Favorite not found"));
-          return;
-        }
-
-        this.favorites.splice(index, 1);
-        resolve();
-
-      }, 100);
-    });
+    try {
+      const favorites = await this.getAll();
+      const favorite = favorites.find(f => f.recipeId === recipeId);
+      if (!favorite) {
+        throw new Error('Favorite not found');
+      }
+      await axios.delete(`${API_URL}/favorites/${favorite.id}`);
+    } catch (error: unknown) {
+      if ((error as Error).message === 'Favorite not found') {
+        throw error;
+      }
+      console.error('Failed to remove favorite:', error);
+      throw new Error('Failed to remove favorite');
+    }
   }
-
-  // Check if recipe is favorite //
+ 
+  // Check if recipe is favorite
   static async isFavorite(recipeId: number): Promise<boolean> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(this.favorites.some(f => f.recipeId === recipeId));
-      }, 50);
-    });
+    try {
+      const favorites = await this.getAll();
+      return favorites.some(f => f.recipeId === recipeId);
+    } catch (error: unknown) {
+      console.error('Failed to check favorite status:', error);
+      throw new Error('Failed to check if favorite');
+    }
   }
 }
