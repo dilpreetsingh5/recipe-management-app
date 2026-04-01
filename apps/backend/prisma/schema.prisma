@@ -15,8 +15,10 @@ datasource db {
 model Recipe {
   id          Int        @id @default(autoincrement())
   title       String
-  image       String
+  image       String?
   cuisineType String
+  ingredients Json?
+  instructions Json?
   difficulty  String
   prepTime    Int
   cookTime    Int
