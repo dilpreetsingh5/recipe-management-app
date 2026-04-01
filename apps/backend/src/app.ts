@@ -1,5 +1,6 @@
 import express, { Express } from 'express';
 import cors from 'cors';
+import recipeRoutes from "./api/v1/routes/recipe.routes.js";
 import userRecipeRoutes from "./api/v1/routes/userRecipe.routes.js";
 
 const app: Express = express();
@@ -11,10 +12,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.use("/api/v1/recipes", recipeRoutes);
 app.use("/api/v1/user-recipes", userRecipeRoutes);
 
-app.get('/api/v1/health', (_req, res) => {
+app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', message: 'Recipe API is running' });
 });
 
 export default app;
+
