@@ -13,38 +13,25 @@ datasource db {
 }
 
 model Recipe {
-  id           Int        @id @default(autoincrement())
-  title        String
-  image        String?
-  cuisineType  String
-  difficulty   String     // 'Easy', 'Medium', 'Hard'
-  prepTime     Int        // in minutes
-  cookTime     Int        // in minutes
-  servings     Int
-  ingredients  String[]   // Array of ingredient strings
-  instructions String[]   // Array of instruction strings
-  calories     Int?
-  protein      Int?
-  carbs        Int?
-  fat          Int?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  
-  favorites    Favorite[]
-  
-  @@index([cuisineType])
-  @@index([difficulty])
+  id          Int        @id @default(autoincrement())
+  title       String
+  image       String
+  cuisineType String
+  difficulty  String
+  prepTime    Int
+  cookTime    Int
+  servings    Int
+  createdAt   DateTime   @default(now())
+  favorites   Favorite[]
 }
 
 model Favorite {
-  id        Int      @id @default(autoincrement())
-  recipeId  Int
-  addedAt   DateTime @default(now())
-  
-  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  
+  id       Int      @id @default(autoincrement())
+  recipeId Int
+  addedAt  DateTime @default(now())
+  recipe   Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
   @@unique([recipeId])
-  @@index([recipeId])
 }
 
 model UserRecipe {
