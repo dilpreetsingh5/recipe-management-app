@@ -116,7 +116,6 @@ export default function RecipeForm({ onAddRecipe }: RecipeFormProps) {
       // Build the full UserRecipe payload (without id — the repository assigns it)
       const newRecipe: Omit<UserRecipe, 'id'> = {
         ...partial,
-        image:        fields.image.trim() || undefined,
         ingredients:  fields.ingredients.split('\n').map(i => i.trim()).filter(Boolean),
         instructions: fields.instructions.split('\n').map(s => s.trim()).filter(Boolean),
       };
