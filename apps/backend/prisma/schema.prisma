@@ -48,15 +48,30 @@ model Favorite {
 }
 
 model UserRecipe {
-  id           Int      @id @default(autoincrement())
+  id           Int                 @id @default(autoincrement())
   title        String
   cuisineType  String
   difficulty   String
   prepTime     Int
   cookTime     Int
   servings     Int
-  ingredients  String[]
-  instructions String[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  ingredients  RecipeIngredient[]
+  instructions RecipeInstruction[]
+}
+
+model RecipeIngredient {
+  id           Int        @id @default(autoincrement())
+  userRecipeId Int
+  name         String
+  userRecipe   UserRecipe @relation(fields: [userRecipeId], references: [id], onDelete: Cascade)
+}
+
+model RecipeInstruction {
+  id           Int        @id @default(autoincrement())
+  userRecipeId Int
+  stepNumber   Int
+  description  String
+  userRecipe   UserRecipe @relation(fields: [userRecipeId], references: [id], onDelete: Cascade)
 }
