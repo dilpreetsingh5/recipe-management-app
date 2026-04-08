@@ -139,9 +139,31 @@ The footer copyright year has been updated to reflect the current year.
 
 This project uses PostgreSQL for development.
 
+### Expected local credentials
+```bash
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=recipe_management_dev
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/recipe_management_dev
+```
+
 ### Start the database
 ```bash
-docker run --name recipe-management-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=recipe_management_dev -p 5432:5432 -d postgres
+docker compose up -d postgres
+```
+
+`docker-compose.yml` defaults to the credentials above, and you can override them by creating a root `.env` file from `.env.example`.
+
+The backend expects the same connection string in `apps/backend/.env`. If you need to recreate that file, copy `apps/backend/.env.example`.
+
+If you still get a Prisma `P1000` authentication error after updating the env values, your existing Docker volume was likely created with a different password. Recreate the database container and volume, then start fresh:
+
+```bash
+docker compose down -v
+docker compose up -d postgres
+npm run prisma:db-push --workspace=apps/backend
+npm run prisma:seed --workspace=apps/backend
+```
 
 ## Authors
 - Dilpreet  

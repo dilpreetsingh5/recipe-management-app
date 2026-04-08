@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SortForm from '../components/Sort-form/sort-form';
 import './Pages.css';
 import type { Recipe } from '../../../../shared/types/Recipe';
@@ -13,6 +13,10 @@ export default function Favorites({
   removeFromFavorites
 }: FavoritesProps) {
   const [sortedRecipes, setSortedRecipes] = useState(favoriteRecipes);
+
+  useEffect(() => {
+    setSortedRecipes(favoriteRecipes);
+  }, [favoriteRecipes]);
  
   if (favoriteRecipes.length === 0) {
     return (
