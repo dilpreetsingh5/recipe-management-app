@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import * as RecipeService from "../services/recipe.services.js";
 
-export async function getAllRecipes(req: Request, res: Response) {
+export async function getAllRecipes(_req: Request, res: Response) {
   try {
     const recipes = await RecipeService.getAllRecipes();
     res.json(recipes);
