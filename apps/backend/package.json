@@ -5,14 +5,11 @@
   "type": "module",
 
   "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
-    "start": "node dist/server.js",
-
-    "prisma:generate": "prisma generate",
-    "prisma:db-push": "prisma db push",
-    "prisma:studio": "prisma studio",
-    "prisma:seed": "tsx prisma/seed.ts"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/server.ts",
+    "build": "tsc",
+    "vercel-build": "prisma migrate deploy && prisma db seed && npm run build",
+    "postinstall": "prisma generate"
   },
 
   "dependencies": {
