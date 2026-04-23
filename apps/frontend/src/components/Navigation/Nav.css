@@ -37,3 +37,8 @@
     border-bottom: 2px solid #666666;
     padding-bottom: 4px;
   }
+
+  .nav-user {
+    display: flex;
+    align-items: center;
+  }

@@ -3,6 +3,7 @@ import cors from 'cors';
 import recipeRoutes from "./api/v1/routes/recipe.routes.js";
 import userRecipeRoutes from "./api/v1/routes/userRecipe.routes.js";
 import favoriteRoutes from "./api/v1/routes/favorite.routes.js";
+import { clerkMiddleware, requireClerkAuth } from "./api/v1/middleware/auth.middleware.js";
 
 const app: Express = express();
 
@@ -12,10 +13,11 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 app.use(express.json());
+app.use(clerkMiddleware);
 
-app.use("/api/v1/recipes", recipeRoutes);
-app.use("/api/v1/user-recipes", userRecipeRoutes);
-app.use("/api/v1/favorites", favoriteRoutes);
+app.use("/api/v1/recipes", requireClerkAuth, recipeRoutes);
+app.use("/api/v1/user-recipes", requireClerkAuth, userRecipeRoutes);
+app.use("/api/v1/favorites", requireClerkAuth, favoriteRoutes);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', message: 'Recipe API is running' });
