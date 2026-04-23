@@ -1,33 +1,21 @@
-import axios from 'axios';
 import type { Favorite } from '../../../../shared/types/Favorite';
+import { authFetch } from '../lib/clerkAuth';
  
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
 
-const hasMessageResponse = (
-  error: unknown
-): error is { response?: { data?: { message?: string } } } => {
-  return typeof error === 'object' && error !== null && 'response' in error;
-};
-
-const getFavoriteErrorMessage = (
-  error: unknown,
+const getFavoriteErrorMessage = async (
+  response: Response,
   fallbackMessage: string
-): string => {
-  if (hasMessageResponse(error)) {
-    const apiMessage = error.response?.data;
+): Promise<string> => {
+  const payload = await response.json().catch(() => null);
 
-    if (
-      apiMessage &&
-      typeof apiMessage === 'object' &&
-      'message' in apiMessage &&
-      typeof apiMessage.message === 'string'
-    ) {
-      return apiMessage.message;
-    }
-  }
-
-  if (error instanceof Error && error.message) {
-    return error.message;
+  if (
+    payload &&
+    typeof payload === 'object' &&
+    'message' in payload &&
+    typeof payload.message === 'string'
+  ) {
+    return payload.message;
   }
 
   return fallbackMessage;
@@ -35,53 +23,53 @@ const getFavoriteErrorMessage = (
  
 export class FavoriteRepository {
   static async getAll(): Promise<Favorite[]> {
-    try {
-      const response = await axios.get<Favorite[]>(`${API_URL}/favorites`);
-      return response.data;
-    } catch (error: unknown) {
-      const message = getFavoriteErrorMessage(error, 'Failed to fetch favorites');
-      console.error(message, error);
+    const response = await authFetch(`${API_URL}/favorites`);
+
+    if (!response.ok) {
+      const message = await getFavoriteErrorMessage(response, 'Failed to fetch favorites');
       throw new Error(message);
     }
+
+    return (await response.json()) as Favorite[];
   }
  
   static async add(recipeId: number): Promise<Favorite> {
-    try {
-      const response = await axios.post<Favorite>(`${API_URL}/favorites`, { recipeId });
-      return response.data;
-    } catch (error: unknown) {
-      const message = getFavoriteErrorMessage(error, 'Failed to add favorite');
-      console.error(message, error);
+    const response = await authFetch(`${API_URL}/favorites`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ recipeId }),
+    });
+
+    if (!response.ok) {
+      const message = await getFavoriteErrorMessage(response, 'Failed to add favorite');
       throw new Error(message);
     }
+
+    return (await response.json()) as Favorite;
   }
  
   static async remove(recipeId: number): Promise<void> {
-    try {
-      const favorite = await this.getByRecipeId(recipeId);
-      if (!favorite) {
-        throw new Error('Favorite not found');
-      }
-      await axios.delete(`${API_URL}/favorites/${favorite.id}`);
-    } catch (error: unknown) {
-      if (error instanceof Error && error.message === 'Favorite not found') {
-        throw error;
-      }
-      const message = getFavoriteErrorMessage(error, 'Failed to remove favorite');
-      console.error(message, error);
+    const favorite = await this.getByRecipeId(recipeId);
+
+    if (!favorite) {
+      throw new Error('Favorite not found');
+    }
+
+    const response = await authFetch(`${API_URL}/favorites/${favorite.id}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      const message = await getFavoriteErrorMessage(response, 'Failed to remove favorite');
       throw new Error(message);
     }
   }
  
   static async isFavorite(recipeId: number): Promise<boolean> {
-    try {
-      const favorite = await this.getByRecipeId(recipeId);
-      return favorite !== undefined;
-    } catch (error: unknown) {
-      const message = getFavoriteErrorMessage(error, 'Failed to check favorite status');
-      console.error(message, error);
-      throw new Error(message);
-    }
+    const favorite = await this.getByRecipeId(recipeId);
+    return favorite !== undefined;
   }
 
   private static async getByRecipeId(recipeId: number): Promise<Favorite | undefined> {

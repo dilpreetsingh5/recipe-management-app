@@ -1,6 +1,7 @@
 import type { UserRecipe } from "../../../../shared/types/UserRecipe";
+import { authFetch } from "../lib/clerkAuth";
 
-const API_BASE_URL = "http://localhost:3001/api/v1/user-recipes";
+const API_BASE_URL = `${import.meta.env.VITE_API_URL || "http://localhost:3001/api/v1"}/user-recipes`;
 
 type BackendUserRecipe = {
   id: number;
@@ -48,14 +49,14 @@ const handleResponse = async (response: Response) => {
 
 export class UserRecipeRepository {
   static async getAll(): Promise<UserRecipe[]> {
-    const response = await fetch(API_BASE_URL);
+    const response = await authFetch(API_BASE_URL);
     const data: BackendUserRecipe[] = await handleResponse(response);
 
     return data.map(mapBackendRecipeToUserRecipe);
   }
 
   static async getById(id: number): Promise<UserRecipe | undefined> {
-    const response = await fetch(`${API_BASE_URL}/${id}`);
+    const response = await authFetch(`${API_BASE_URL}/${id}`);
 
     if (response.status === 404) {
       return undefined;
@@ -66,7 +67,7 @@ export class UserRecipeRepository {
   }
 
   static async create(recipe: UserRecipe): Promise<UserRecipe> {
-    const response = await fetch(API_BASE_URL, {
+    const response = await authFetch(API_BASE_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +89,7 @@ export class UserRecipeRepository {
   }
 
   static async update(updatedRecipe: UserRecipe): Promise<UserRecipe> {
-    const response = await fetch(`${API_BASE_URL}/${updatedRecipe.id}`, {
+    const response = await authFetch(`${API_BASE_URL}/${updatedRecipe.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +111,7 @@ export class UserRecipeRepository {
   }
 
   static async delete(id: number): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/${id}`, {
+    const response = await authFetch(`${API_BASE_URL}/${id}`, {
       method: "DELETE",
     });
 
