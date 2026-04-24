@@ -45,7 +45,7 @@ export default function RecipeCard({ recipe, onAddToFavorites, isFavorite }: Rec
               <SignedOut>
                 <SignInButton mode="modal">
                   <button type="button" className="recipe-card-button">
-                    favorite
+                    Add to favorite
                   </button>
                 </SignInButton>
               </SignedOut>
