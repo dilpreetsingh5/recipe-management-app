@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import type { AuthenticatedRequest } from "../middleware/auth.middleware.js";
 
 import {
   getAllFavorites,
@@ -19,7 +20,10 @@ export const getAll = async (_req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
   try {
     const { recipeId } = req.body;
-    const favorite = await addFavorite(recipeId);
+    const favorite = await addFavorite(
+      recipeId,
+      (req as AuthenticatedRequest).userId
+    );
     res.status(201).json(favorite);
   } catch (error) {
     res.status(500).json({ message: "Failed to add favorite", error });

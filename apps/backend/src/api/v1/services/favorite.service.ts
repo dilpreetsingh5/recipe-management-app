@@ -4,9 +4,9 @@ export const getAllFavorites = async () => {
   return prisma.favorite.findMany();
 };
  
-export const addFavorite = async (recipeId: number) => {
+export const addFavorite = async (recipeId: number, userId: number) => {
   return prisma.favorite.create({
-    data: { recipeId },
+    data: { recipeId, userId },
   });
 };
  
