@@ -1,37 +1,15 @@
-import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
-import { authFetch } from "../lib/clerkAuth";
+import { useUserRecipes } from "../hooks/useUserRecipe";
 
-type ProfileData = {
+interface ProfileProps {
   favoriteCount: number;
-  userRecipeCount: number;
-};
+}
 
-export default function Profile() {
+export default function Profile({ favoriteCount }: ProfileProps) {
   const { user } = useUser();
-  const [data, setData] = useState<ProfileData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { recipes, isLoading } = useUserRecipes(true);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await authFetch(
-          "http://localhost:3001/api/v1/profile"
-        );
-
-        const result = await res.json();
-        setData(result);
-      } catch (error) {
-        console.error("Failed to fetch profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
-
-  if (loading) return <p>Loading profile...</p>;
+  if (isLoading) return <p>Loading profile...</p>;
 
   return (
     <section className="profile-page">
@@ -52,8 +30,8 @@ export default function Profile() {
 
       <div className="profile-stats">
         <h2>My Activity</h2>
-        <p>Favorites: {data?.favoriteCount ?? 0}</p>
-        <p>My Recipes: {data?.userRecipeCount ?? 0}</p>
+        <p>Favorites: {favoriteCount}</p>
+        <p>My Recipes: {recipes.length}</p>
       </div>
     </section>
   );

@@ -4,12 +4,18 @@ import {
   createClerkExpressWithAuth,
 } from "@clerk/clerk-sdk-node";
 import type { NextFunction, Request, Response } from "express";
+import { prisma } from "../../../lib/prisma.js";
 
 type ClerkRequest = Request & {
   auth?: {
     userId?: string | null;
     sessionId?: string | null;
   };
+};
+
+export type AuthenticatedRequest = Request & {
+  clerkUserId: string;
+  userId: number;
 };
 
 const publishableKey = process.env.CLERK_PUBLISHABLE_KEY;
@@ -36,19 +42,26 @@ export const requireClerkAuth = createClerkExpressRequireAuth({
   secretKey,
 })();
 
-export const attachUserId = (
+export const attachUserId = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const authenticatedRequest = req as ClerkRequest;
 
-  const userId = authenticatedRequest.auth?.userId;
+  const clerkUserId = authenticatedRequest.auth?.userId;
 
-  if (!userId) {
+  if (!clerkUserId) {
     return res.status(401).json({ message: "Authentication required" });
   }
 
-  (req as Request & { userId: string }).userId = userId;
+  const user = await prisma.user.upsert({
+    where: { clerkId: clerkUserId },
+    update: {},
+    create: { clerkId: clerkUserId },
+  });
+
+  (req as AuthenticatedRequest).clerkUserId = clerkUserId;
+  (req as AuthenticatedRequest).userId = user.id;
   return next();
 };

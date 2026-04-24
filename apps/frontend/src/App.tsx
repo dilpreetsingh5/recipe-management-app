@@ -108,13 +108,13 @@ function App() {
               />
 
               <Route
-  path="/profile"
-  element={
-    <ProtectedRoute>
-      <Profile />
-    </ProtectedRoute>
-  }
-/>
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile favoriteCount={favoriteRecipes.length} />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </main>
 

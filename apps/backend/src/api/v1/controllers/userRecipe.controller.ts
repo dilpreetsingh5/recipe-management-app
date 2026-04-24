@@ -6,10 +6,11 @@ import {
   updateUserRecipe,
   deleteUserRecipe,
 } from "../services/userRecipe.services.js";
+import type { AuthenticatedRequest } from "../middleware/auth.middleware.js";
 
-export const getAll = async (_req: Request, res: Response) => {
+export const getAll = async (req: Request, res: Response) => {
   try {
-    const recipes = await getAllUserRecipes();
+    const recipes = await getAllUserRecipes((req as AuthenticatedRequest).userId);
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch user recipes", error });
@@ -19,7 +20,7 @@ export const getAll = async (_req: Request, res: Response) => {
 export const getById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    const recipe = await getUserRecipeById(id);
+    const recipe = await getUserRecipeById(id, (req as AuthenticatedRequest).userId);
 
     if (!recipe) {
       res.status(404).json({ message: "User recipe not found" });
@@ -34,7 +35,7 @@ export const getById = async (req: Request, res: Response) => {
 
 export const create = async (req: Request, res: Response) => {
   try {
-    const recipe = await createUserRecipe(req.body);
+    const recipe = await createUserRecipe((req as AuthenticatedRequest).userId, req.body);
     res.status(201).json(recipe);
   } catch (error: any) {
     console.error('Create user recipe error:', {
@@ -57,14 +58,18 @@ export const create = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    const existingRecipe = await getUserRecipeById(id);
+    const existingRecipe = await getUserRecipeById(id, (req as AuthenticatedRequest).userId);
 
     if (!existingRecipe) {
       res.status(404).json({ message: "User recipe not found" });
       return;
     }
 
-    const updatedRecipe = await updateUserRecipe(id, req.body);
+    const updatedRecipe = await updateUserRecipe(
+      id,
+      (req as AuthenticatedRequest).userId,
+      req.body
+    );
     res.status(200).json(updatedRecipe);
   } catch (error) {
     res.status(500).json({ message: "Failed to update user recipe", error });
@@ -74,14 +79,14 @@ export const update = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    const existingRecipe = await getUserRecipeById(id);
+    const existingRecipe = await getUserRecipeById(id, (req as AuthenticatedRequest).userId);
 
     if (!existingRecipe) {
       res.status(404).json({ message: "User recipe not found" });
       return;
     }
 
-    await deleteUserRecipe(id);
+    await deleteUserRecipe(id, (req as AuthenticatedRequest).userId);
     res.status(200).json({ message: "User recipe deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Failed to delete user recipe", error });
