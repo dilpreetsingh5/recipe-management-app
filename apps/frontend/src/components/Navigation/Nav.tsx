@@ -14,14 +14,14 @@ export default function Nav() {
           <NavLink to="/">Browse Recipes</NavLink>
         </li>
 
+        <li>
+          <NavLink to="/add-recipe">Add Recipe</NavLink>
+        </li>
+
         {/* Only visible when logged in */}
         <SignedIn>
           <li>
             <NavLink to="/favorites">My Favorites</NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/add-recipe">Add Recipe</NavLink>
           </li>
 
           <li>
