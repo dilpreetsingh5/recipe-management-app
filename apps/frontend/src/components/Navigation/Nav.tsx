@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import { UserButton } from '@clerk/clerk-react';
 import './Nav.css';
  
 export default function Nav() {
@@ -32,9 +31,6 @@ export default function Nav() {
           >
             Add Recipe
           </NavLink>
-        </li>
-        <li className="nav-user">
-          <UserButton afterSignOutUrl="/" />
         </li>
       </ul>
     </nav>

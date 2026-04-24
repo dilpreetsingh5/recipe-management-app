@@ -1,4 +1,8 @@
-import { createClerkClient, createClerkExpressWithAuth } from "@clerk/clerk-sdk-node";
+import {
+  createClerkClient,
+  createClerkExpressRequireAuth,
+  createClerkExpressWithAuth,
+} from "@clerk/clerk-sdk-node";
 import type { NextFunction, Request, Response } from "express";
 
 type ClerkRequest = Request & {
@@ -15,25 +19,36 @@ if (!publishableKey || !secretKey) {
   throw new Error("Missing Clerk backend environment variables");
 }
 
+const clerkClient = createClerkClient({
+  secretKey,
+  publishableKey,
+});
+
 export const clerkMiddleware = createClerkExpressWithAuth({
-  clerkClient: createClerkClient({
-    secretKey,
-    publishableKey,
-  }),
+  clerkClient,
   publishableKey,
   secretKey,
 })();
 
-export const requireClerkAuth = (
+export const requireClerkAuth = createClerkExpressRequireAuth({
+  clerkClient,
+  publishableKey,
+  secretKey,
+})();
+
+export const attachUserId = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const authenticatedRequest = req as ClerkRequest;
 
-  if (!authenticatedRequest.auth?.userId) {
+  const userId = authenticatedRequest.auth?.userId;
+
+  if (!userId) {
     return res.status(401).json({ message: "Authentication required" });
   }
 
+  (req as Request & { userId: string }).userId = userId;
   return next();
 };

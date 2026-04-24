@@ -6,10 +6,48 @@
 
 /* Top section with logo */
 .header-top {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.header-spacer {
+  height: 1px;
+}
+
+.header-auth {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-auth-button {
+  appearance: none;
+  border: 1px solid #666666;
+  background: transparent;
+  color: #666666;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.header-auth-button:hover {
+  color: #000000;
+  border-color: #000000;
+}
+
+.header-auth-button-primary {
+  background: #666666;
+  color: #ffffff;
+}
+
+.header-auth-button-primary:hover {
+  background: #000000;
+  border-color: #000000;
+  color: #ffffff;
 }
 
 .logo {
