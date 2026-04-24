@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { ClerkLoaded, ClerkLoading, RedirectToUserProfile, useAuth } from '@clerk/clerk-react';
+import { ClerkLoaded, ClerkLoading, useAuth } from '@clerk/clerk-react';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Home from './pages/Home';
@@ -10,6 +10,7 @@ import AddRecipe from './pages/AddRecipe';
 import type { Recipe } from '../../../shared/types/Recipe';
 import { setClerkTokenGetter } from './lib/clerkAuth';
 import ProtectedRoute from './components/ProtectedRoute';
+import Profile from './pages/Profile';
 
 const FAVORITES_STORAGE_KEY = 'favoriteRecipes';
 
@@ -107,13 +108,13 @@ function App() {
               />
 
               <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <RedirectToUserProfile />
-                  </ProtectedRoute>
-                }
-              />
+  path="/profile"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
             </Routes>
           </main>
 
