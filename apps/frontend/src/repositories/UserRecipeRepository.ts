@@ -1,7 +1,7 @@
 import type { UserRecipe } from "../../../../shared/types/UserRecipe";
-import { authFetch } from "../lib/clerkAuth";
+import { apiClient, getApiErrorMessage } from "../lib/apiClient";
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL || "http://localhost:3001/api/v1"}/user-recipes`;
+const API_BASE_URL = "/user-recipes";
 
 type BackendUserRecipe = {
   id: number;
@@ -38,41 +38,35 @@ const mapBackendRecipeToUserRecipe = (
     .map((instruction) => instruction.description),
 });
 
-const handleResponse = async (response: Response) => {
-  if (!response.ok) {
-    const errorBody = await response.json().catch(() => null);
-    throw new Error(errorBody?.message || "Request failed");
-  }
-
-  return response.json();
-};
-
 export class UserRecipeRepository {
   static async getAll(): Promise<UserRecipe[]> {
-    const response = await authFetch(API_BASE_URL);
-    const data: BackendUserRecipe[] = await handleResponse(response);
-
-    return data.map(mapBackendRecipeToUserRecipe);
+    try {
+      const response = await apiClient.get<BackendUserRecipe[]>(API_BASE_URL);
+      return response.data.map(mapBackendRecipeToUserRecipe);
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Request failed"));
+    }
   }
 
   static async getById(id: number): Promise<UserRecipe | undefined> {
-    const response = await authFetch(`${API_BASE_URL}/${id}`);
+    try {
+      const response = await apiClient.get<BackendUserRecipe>(
+        `${API_BASE_URL}/${id}`
+      );
+      return mapBackendRecipeToUserRecipe(response.data);
+    } catch (error) {
+      if (typeof error === "object" && error && "response" in error) {
+        const status = (error as { response?: { status?: number } }).response?.status;
+        if (status === 404) return undefined;
+      }
 
-    if (response.status === 404) {
-      return undefined;
+      throw new Error(getApiErrorMessage(error, "Request failed"));
     }
-
-    const data: BackendUserRecipe = await handleResponse(response);
-    return mapBackendRecipeToUserRecipe(data);
   }
 
   static async create(recipe: UserRecipe): Promise<UserRecipe> {
-    const response = await authFetch(API_BASE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      const response = await apiClient.post<BackendUserRecipe>(API_BASE_URL, {
         title: recipe.title,
         cuisineType: recipe.cuisineType,
         difficulty: recipe.difficulty,
@@ -81,43 +75,41 @@ export class UserRecipeRepository {
         servings: recipe.servings,
         ingredients: recipe.ingredients,
         instructions: recipe.instructions,
-      }),
-    });
+      });
 
-    const data: BackendUserRecipe = await handleResponse(response);
-    return mapBackendRecipeToUserRecipe(data);
+      return mapBackendRecipeToUserRecipe(response.data);
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Request failed"));
+    }
   }
 
   static async update(updatedRecipe: UserRecipe): Promise<UserRecipe> {
-    const response = await authFetch(`${API_BASE_URL}/${updatedRecipe.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: updatedRecipe.title,
-        cuisineType: updatedRecipe.cuisineType,
-        difficulty: updatedRecipe.difficulty,
-        prepTime: updatedRecipe.prepTime,
-        cookTime: updatedRecipe.cookTime,
-        servings: updatedRecipe.servings,
-        ingredients: updatedRecipe.ingredients,
-        instructions: updatedRecipe.instructions,
-      }),
-    });
+    try {
+      const response = await apiClient.put<BackendUserRecipe>(
+        `${API_BASE_URL}/${updatedRecipe.id}`,
+        {
+          title: updatedRecipe.title,
+          cuisineType: updatedRecipe.cuisineType,
+          difficulty: updatedRecipe.difficulty,
+          prepTime: updatedRecipe.prepTime,
+          cookTime: updatedRecipe.cookTime,
+          servings: updatedRecipe.servings,
+          ingredients: updatedRecipe.ingredients,
+          instructions: updatedRecipe.instructions,
+        }
+      );
 
-    const data: BackendUserRecipe = await handleResponse(response);
-    return mapBackendRecipeToUserRecipe(data);
+      return mapBackendRecipeToUserRecipe(response.data);
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Request failed"));
+    }
   }
 
   static async delete(id: number): Promise<void> {
-    const response = await authFetch(`${API_BASE_URL}/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      const errorBody = await response.json().catch(() => null);
-      throw new Error(errorBody?.message || "Failed to delete recipe");
+    try {
+      await apiClient.delete(`${API_BASE_URL}/${id}`);
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Failed to delete recipe"));
     }
   }
 }

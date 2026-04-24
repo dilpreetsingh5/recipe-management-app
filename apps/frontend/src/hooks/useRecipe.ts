@@ -19,7 +19,7 @@ export function useRecipes() {
             setError(null);
             const data = await RecipeService.getAllRecipes();
             setRecipes(data);
-        } catch (err) {
+        } catch {
             setError('Failed to load recipes');
         } finally {
             setLoading(false);
@@ -37,8 +37,7 @@ export function useRecipes() {
             setError(null);
             const data = await RecipeService.searchRecipes(searchTerm);
             setRecipes(data);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (err) {
+        } catch {
             setError('Failed to search recipes');
         } finally {
             setLoading(false);
@@ -51,7 +50,7 @@ export function useRecipes() {
             setError(null);
             const data = await RecipeService.filterByCuisine(cuisineType);
             setRecipes(data);
-        } catch (err) {
+        } catch {
             setError('Failed to filter recipes by cuisine');
         } finally {
             setLoading(false);
@@ -65,7 +64,7 @@ export function useRecipes() {
                 setError(null);
                 const data = await RecipeService.filterByDifficulty(difficulty);
                 setRecipes(data);
-            } catch (err) {
+            } catch {
                 setError('Failed to filter recipes by difficulty');
             } finally {
                 setLoading(false);
