@@ -1,86 +1,80 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
+import { ClerkLoaded, ClerkLoading, useAuth } from '@clerk/clerk-react';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import AddRecipe from './pages/AddRecipe';
-import type { Recipe } from '../../../shared/types/Recipe';
-
-const FAVORITES_STORAGE_KEY = 'favoriteRecipes';
+import { setClerkTokenGetter } from './lib/clerkAuth';
+import ProtectedRoute from './components/ProtectedRoute';
+import Profile from './pages/Profile';
 
 function App() {
-  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>(() => {
-    if (typeof window === 'undefined') {
-      return [];
-    }
+  const { getToken } = useAuth();
 
-    const storedFavorites = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
+  useLayoutEffect(() => {
+    setClerkTokenGetter(getToken);
 
-    if (!storedFavorites) {
-      return [];
-    }
-
-    try {
-      return JSON.parse(storedFavorites) as Recipe[];
-    } catch {
-      window.localStorage.removeItem(FAVORITES_STORAGE_KEY);
-      return [];
-    }
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      FAVORITES_STORAGE_KEY,
-      JSON.stringify(favoriteRecipes)
-    );
-  }, [favoriteRecipes]);
-
-
-  const addToFavorites = (recipe: Recipe) => {
-    setFavoriteRecipes(prev =>
-      prev.some(r => r.id === recipe.id) ? prev : [...prev, recipe]
-    );
-  };
-
-  const removeFromFavorites = (id: number) => {
-    setFavoriteRecipes(prev => prev.filter(r => r.id !== id));
-  };
+    return () => {
+      setClerkTokenGetter(async () => null);
+    };
+  }, [getToken]);
 
   return (
-      <div className="app">
-        <Header />
-        <main className="app-main">
-          <Routes>
-            <Route 
-              path="/"
-              element={
-                <Home
-                  favoriteRecipes={favoriteRecipes}
-                  addToFavorites={addToFavorites}
-                />
-              }
-            />
-
-            <Route
-              path="/favorites"
-              element={
-                <Favorites
-                  favoriteRecipes={favoriteRecipes}
-                  removeFromFavorites={removeFromFavorites}
-                />
-              }
-            />
-
-            <Route path="/add-recipe" element={<AddRecipe />} />
-
-          </Routes>
+    <>
+      <ClerkLoading>
+        <main className="auth-page">
+          <div className="auth-card">
+            <h1>Loading…</h1>
+          </div>
         </main>
+      </ClerkLoading>
 
-        <Footer />
-      </div>
-    
+      <ClerkLoaded>
+        <div className="app">
+          <Header />
+          <main className="app-main">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home />
+                }
+              />
+
+              <Route
+                path="/favorites"
+                element={
+                  <ProtectedRoute>
+                    <Favorites />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/add-recipe"
+                element={
+                  <AddRecipe />
+                }
+              />
+
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
+      </ClerkLoaded>
+    </>
   );
 }
 

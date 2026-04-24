@@ -1,22 +1,40 @@
+import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/clerk-react";
 import RecipeForm from "../components/recipe-form/RecipeForm";
 import UserRecipeCard from "../components/UserRecipeCard/UserRecipeCard";
 import { useUserRecipes } from "../hooks/useUserRecipe";
 
 export default function AddRecipe() {
-  const { recipes, isLoading, error, addRecipe, deleteRecipe } = useUserRecipes();
+  const { isSignedIn } = useUser();
+  const { recipes, isLoading, error, addRecipe, deleteRecipe } = useUserRecipes(
+    Boolean(isSignedIn)
+  );
 
   return (
     <div>
-      <RecipeForm onAddRecipe={addRecipe} />
+      <SignedOut>
+        <h2>Add a Recipe</h2>
+        <p>Please sign in to add and manage your own recipes.</p>
+        <SignInButton mode="modal">
+          <button>Sign in</button>
+        </SignInButton>
+      </SignedOut>
 
-      <h2>Your Added Recipes</h2>
+      <SignedIn>
+        <RecipeForm onAddRecipe={addRecipe} />
 
-      {error ? <p style={{ color: "crimson" }}>{error}</p> : null}
-      {isLoading ? <p>Loading...</p> : null}
+        <h2>Your Added Recipes</h2>
 
-      {recipes.map(recipe => (
-        <UserRecipeCard key={recipe.id} recipe={recipe} onRemove={deleteRecipe} />
-      ))}
+        {error ? <p style={{ color: "crimson" }}>{error}</p> : null}
+        {isLoading ? <p>Loading...</p> : null}
+
+        {recipes.map((recipe) => (
+          <UserRecipeCard
+            key={recipe.id}
+            recipe={recipe}
+            onRemove={deleteRecipe}
+          />
+        ))}
+      </SignedIn>
     </div>
   );
 }

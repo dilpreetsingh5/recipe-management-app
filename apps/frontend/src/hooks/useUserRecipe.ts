@@ -2,12 +2,19 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { UserRecipe } from "../../../../shared/types/UserRecipe";
 import { UserRecipeService } from "../services/UserRecipeService";
 
-export function useUserRecipes() {
+export function useUserRecipes(enabled = true) {
   const [recipes, setRecipes] = useState<UserRecipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
+    if (!enabled) {
+      setRecipes([]);
+      setError(null);
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     try {
@@ -18,7 +25,7 @@ export function useUserRecipes() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
     void refresh();

@@ -1,13 +1,20 @@
 import './RecipeCard.css';
 import type {Recipe} from '../../../../../shared/types/Recipe';
+import { SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react';
 
 interface RecipeCardProps {
     recipe: Recipe;
-    onAddToFavorites: (recipe: Recipe) => void;
+    onToggleFavorite: (recipeId: number) => void | Promise<void>;
     isFavorite: boolean;
+    canFavorite?: boolean;
 }
 
-export default function RecipeCard({ recipe, onAddToFavorites, isFavorite }: RecipeCardProps) {
+export default function RecipeCard({
+  recipe,
+  onToggleFavorite,
+  isFavorite,
+  canFavorite = true,
+}: RecipeCardProps) {
   return (
       <article key={recipe.id} className="recipe-card-item">
           <div className="recipe-card-image-container">
@@ -31,13 +38,30 @@ export default function RecipeCard({ recipe, onAddToFavorites, isFavorite }: Rec
                   {recipe.servings} servings
                 </span>
               </div>
-                <button
-                    onClick={() => onAddToFavorites(recipe)}
-                    disabled={isFavorite}
-                    className={isFavorite ? 'recipe-card-button favorited' : 'recipe-card-button'}
-                >
-                    {isFavorite ? ' Favorited' : ' Add to Favorites'}
+              {canFavorite ? (
+                <>
+                  <SignedIn>
+                    <button
+                      onClick={() => onToggleFavorite(recipe.id)}
+                      className={isFavorite ? 'recipe-card-button favorited' : 'recipe-card-button'}
+                    >
+                      {isFavorite ? ' Remove Favorite' : ' Add to Favorites'}
+                    </button>
+                  </SignedIn>
+
+                  <SignedOut>
+                    <SignInButton mode="modal">
+                      <button type="button" className="recipe-card-button">
+                        Add to favorite
+                      </button>
+                    </SignInButton>
+                  </SignedOut>
+                </>
+              ) : (
+                <button type="button" className="recipe-card-button favorited" disabled>
+                  Your Recipe
                 </button>
+              )}
             </div>
       </article>
     );

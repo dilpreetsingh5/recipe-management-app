@@ -1,66 +1,64 @@
-import axios from 'axios';
 import type { Recipe } from '../../../../shared/types/Recipe';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
+import { apiClient, getApiErrorMessage } from "../lib/apiClient";
 
 export class RecipeRepository {
   static async getAll(): Promise<Recipe[]> {
     try {
-      const response = await axios.get(`${API_URL}/recipes`);
+      const response = await apiClient.get<Recipe[]>("/recipes");
       return response.data;
-    } catch (error: unknown) {
-      console.error('Failed to fetch recipes:', error);
-      throw new Error('Failed to fetch recipes');
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Failed to fetch recipes"));
     }
   }
 
   static async getById(id: number): Promise<Recipe | null> {
     try {
-      const response = await axios.get(`${API_URL}/recipes/${id}`);
+      const response = await apiClient.get<Recipe>(`/recipes/${id}`);
       return response.data;
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response?.status === 404) {
-        return null;
+    } catch (error) {
+      if (typeof error === "object" && error && "response" in error) {
+        const status = (error as { response?: { status?: number } }).response?.status;
+        if (status === 404) return null;
       }
-      throw new Error('Failed to fetch recipe');
+
+      throw new Error(getApiErrorMessage(error, "Failed to fetch recipe"));
     }
   }
 
   static async search(searchTerm: string): Promise<Recipe[]> {
     try {
-      const response = await axios.get(`${API_URL}/recipes/search`, {
-        params: { q: searchTerm }
+      const response = await apiClient.get<Recipe[]>("/recipes/search", {
+        params: { q: searchTerm },
       });
       return response.data;
-    } catch (error: unknown) {
-      throw new Error('Failed to search recipes');
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Failed to search recipes"));
     }
   }
 
   static async create(recipe: Omit<Recipe, 'id' | 'createdAt' | 'updatedAt'>): Promise<Recipe> {
     try {
-      const response = await axios.post(`${API_URL}/recipes`, recipe);
+      const response = await apiClient.post<Recipe>("/recipes", recipe);
       return response.data;
-    } catch (error: unknown) {
-      throw new Error('Failed to create recipe');
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Failed to create recipe"));
     }
   }
 
   static async update(id: number, data: Partial<Recipe>): Promise<Recipe> {
     try {
-      const response = await axios.put(`${API_URL}/recipes/${id}`, data);
+      const response = await apiClient.put<Recipe>(`/recipes/${id}`, data);
       return response.data;
-    } catch (error: unknown) {
-      throw new Error('Failed to update recipe');
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Failed to update recipe"));
     }
   }
 
   static async delete(id: number): Promise<void> {
     try {
-      await axios.delete(`${API_URL}/recipes/${id}`);
-    } catch (error: unknown) {
-      throw new Error('Failed to delete recipe');
+      await apiClient.delete(`/recipes/${id}`);
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, "Failed to delete recipe"));
     }
   }
 }
-
