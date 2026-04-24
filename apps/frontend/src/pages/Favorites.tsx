@@ -78,7 +78,7 @@ export default function Favorites() {
                 onClick={() => toggleFavorite(recipe.id)}
                 className="btn-remove"
               >
-                âŒ Remove from Favorites
+                Remove from Favorites
               </button>
             </div>
           </article>
