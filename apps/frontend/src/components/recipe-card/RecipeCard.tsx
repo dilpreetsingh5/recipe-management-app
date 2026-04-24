@@ -1,5 +1,6 @@
 import './RecipeCard.css';
 import type {Recipe} from '../../../../../shared/types/Recipe';
+import { SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react';
 
 interface RecipeCardProps {
     recipe: Recipe;
@@ -31,13 +32,23 @@ export default function RecipeCard({ recipe, onAddToFavorites, isFavorite }: Rec
                   {recipe.servings} servings
                 </span>
               </div>
+              <SignedIn>
                 <button
-                    onClick={() => onAddToFavorites(recipe)}
-                    disabled={isFavorite}
-                    className={isFavorite ? 'recipe-card-button favorited' : 'recipe-card-button'}
+                  onClick={() => onAddToFavorites(recipe)}
+                  disabled={isFavorite}
+                  className={isFavorite ? 'recipe-card-button favorited' : 'recipe-card-button'}
                 >
-                    {isFavorite ? ' Favorited' : ' Add to Favorites'}
+                  {isFavorite ? ' Favorited' : ' Add to Favorites'}
                 </button>
+              </SignedIn>
+
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button type="button" className="recipe-card-button">
+                    favorite
+                  </button>
+                </SignInButton>
+              </SignedOut>
             </div>
       </article>
     );

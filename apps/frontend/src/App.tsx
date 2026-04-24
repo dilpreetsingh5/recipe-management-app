@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { SignedIn, SignedOut, SignIn, useAuth } from '@clerk/clerk-react';
+import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut, SignIn, useAuth } from '@clerk/clerk-react';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Home from './pages/Home';
@@ -61,17 +61,15 @@ function App() {
 
   return (
     <>
-      <SignedOut>
+      <ClerkLoading>
         <main className="auth-page">
           <div className="auth-card">
-            <h1>Recipe Management System</h1>
-            <p>Sign in with your email to manage recipes, favorites, and custom dishes.</p>
-            <SignIn routing="hash" fallbackRedirectUrl="/" signUpForceRedirectUrl="/" />
+            <h1>Loading…</h1>
           </div>
         </main>
-      </SignedOut>
+      </ClerkLoading>
 
-      <SignedIn>
+      <ClerkLoaded>
         <div className="app">
           <Header />
           <main className="app-main">
@@ -89,20 +87,53 @@ function App() {
               <Route
                 path="/favorites"
                 element={
-                  <Favorites
-                    favoriteRecipes={favoriteRecipes}
-                    removeFromFavorites={removeFromFavorites}
-                  />
+                  <>
+                    <SignedOut>
+                      <main className="auth-page">
+                        <div className="auth-card">
+                          <h1>Sign in required</h1>
+                          <p>Sign in to view and manage your favorites.</p>
+                          <SignIn routing="hash" fallbackRedirectUrl="/favorites" signUpForceRedirectUrl="/favorites" />
+                        </div>
+                      </main>
+                    </SignedOut>
+
+                    <SignedIn>
+                      <Favorites
+                        favoriteRecipes={favoriteRecipes}
+                        removeFromFavorites={removeFromFavorites}
+                      />
+                    </SignedIn>
+                  </>
                 }
               />
 
-              <Route path="/add-recipe" element={<AddRecipe />} />
+              <Route
+                path="/add-recipe"
+                element={
+                  <>
+                    <SignedOut>
+                      <main className="auth-page">
+                        <div className="auth-card">
+                          <h1>Sign in required</h1>
+                          <p>Sign in to submit your own recipes.</p>
+                          <SignIn routing="hash" fallbackRedirectUrl="/add-recipe" signUpForceRedirectUrl="/add-recipe" />
+                        </div>
+                      </main>
+                    </SignedOut>
+
+                    <SignedIn>
+                      <AddRecipe />
+                    </SignedIn>
+                  </>
+                }
+              />
             </Routes>
           </main>
 
           <Footer />
         </div>
-      </SignedIn>
+      </ClerkLoaded>
     </>
   );
 }
