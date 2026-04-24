@@ -71,12 +71,16 @@ export default function Home() {
       <header className="page-header">
         <h1>Browse Recipes</h1>
         <p>Discover amazing recipes from around the world</p>
-        <p className="favorite-count">Favorites: {favorites.length}</p>
-        {favoritesError && (
-          <p style={{ color: "crimson" }}>Favorites error: {favoritesError}</p>
-        )}
-        {favoritesLoading && Boolean(isSignedIn) && (
-          <p>Loading favorites...</p>
+        {Boolean(isSignedIn) && (
+          <>
+            <p className="favorite-count">Favorites: {favorites.length}</p>
+            {favoritesError && (
+              <p style={{ color: "crimson" }}>
+                Favorites error: {favoritesError}
+              </p>
+            )}
+            {favoritesLoading && <p>Loading favorites...</p>}
+          </>
         )}
       </header>
 

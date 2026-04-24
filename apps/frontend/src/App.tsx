@@ -56,9 +56,7 @@ function App() {
               <Route
                 path="/add-recipe"
                 element={
-                  <ProtectedRoute>
-                    <AddRecipe />
-                  </ProtectedRoute>
+                  <AddRecipe />
                 }
               />
 
