@@ -33,26 +33,8 @@ export default function Nav() {
           <li>
             <NavLink to="/profile">Profile</NavLink>
           </li>
-
-          <li className="nav-user">
-            <UserButton afterSignOutUrl="/" />
-          </li>
         </SignedIn>
 
-        {/* Only visible when logged out */}
-        <SignedOut>
-          <li>
-            <SignInButton mode="modal">
-              <button className="auth-btn">Sign In</button>
-            </SignInButton>
-          </li>
-
-          <li>
-            <SignUpButton mode="modal">
-              <button className="auth-btn">Sign Up</button>
-            </SignUpButton>
-          </li>
-        </SignedOut>
       </ul>
     </nav>
   );
