@@ -1,11 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton
-} from '@clerk/clerk-react';
+import { SignedIn } from '@clerk/clerk-react';
 import './Nav.css';
 
 export default function Nav() {

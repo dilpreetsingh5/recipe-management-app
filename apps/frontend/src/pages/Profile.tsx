@@ -1,12 +1,10 @@
 import { useUser } from "@clerk/clerk-react";
+import { useFavorites } from "../hooks/useFavorites";
 import { useUserRecipes } from "../hooks/useUserRecipe";
 
-interface ProfileProps {
-  favoriteCount: number;
-}
-
-export default function Profile({ favoriteCount }: ProfileProps) {
+export default function Profile() {
   const { user } = useUser();
+  const { favorites } = useFavorites(true);
   const { recipes, isLoading } = useUserRecipes(true);
 
   if (isLoading) return <p>Loading profile...</p>;
@@ -30,7 +28,7 @@ export default function Profile({ favoriteCount }: ProfileProps) {
 
       <div className="profile-stats">
         <h2>My Activity</h2>
-        <p>Favorites: {favoriteCount}</p>
+        <p>Favorites: {favorites.length}</p>
         <p>My Recipes: {recipes.length}</p>
       </div>
     </section>

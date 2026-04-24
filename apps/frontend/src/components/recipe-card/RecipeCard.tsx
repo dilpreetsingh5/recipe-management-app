@@ -4,14 +4,14 @@ import { SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react';
 
 interface RecipeCardProps {
     recipe: Recipe;
-    onAddToFavorites: (recipe: Recipe) => void;
+    onToggleFavorite: (recipeId: number) => void | Promise<void>;
     isFavorite: boolean;
     canFavorite?: boolean;
 }
 
 export default function RecipeCard({
   recipe,
-  onAddToFavorites,
+  onToggleFavorite,
   isFavorite,
   canFavorite = true,
 }: RecipeCardProps) {
@@ -42,11 +42,10 @@ export default function RecipeCard({
                 <>
                   <SignedIn>
                     <button
-                      onClick={() => onAddToFavorites(recipe)}
-                      disabled={isFavorite}
+                      onClick={() => onToggleFavorite(recipe.id)}
                       className={isFavorite ? 'recipe-card-button favorited' : 'recipe-card-button'}
                     >
-                      {isFavorite ? ' Favorited' : ' Add to Favorites'}
+                      {isFavorite ? ' Remove Favorite' : ' Add to Favorites'}
                     </button>
                   </SignedIn>
 

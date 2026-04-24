@@ -6,12 +6,8 @@ import "./Pages.css";
 import type { Recipe } from "../../../../shared/types/Recipe";
 import type { UserRecipe } from "../../../../shared/types/UserRecipe";
 import { useRecipes } from "../hooks/useRecipe";
+import { useFavorites } from "../hooks/useFavorites";
 import { useUserRecipes } from "../hooks/useUserRecipe";
-
-interface HomeProps {
-  favoriteRecipes: Recipe[];
-  addToFavorites: (recipe: Recipe) => void;
-}
 
 const mapUserRecipeToRecipe = (recipe: UserRecipe): Recipe => ({
   id: recipe.id,
@@ -26,9 +22,15 @@ const mapUserRecipeToRecipe = (recipe: UserRecipe): Recipe => ({
   instructions: recipe.instructions,
 });
 
-export default function Home({ favoriteRecipes, addToFavorites }: HomeProps) {
+export default function Home() {
   const { isSignedIn } = useUser();
   const { recipes, loading, error } = useRecipes();
+  const {
+    favorites,
+    loading: favoritesLoading,
+    error: favoritesError,
+    toggleFavorite,
+  } = useFavorites(Boolean(isSignedIn));
   const { recipes: userRecipes } = useUserRecipes(Boolean(isSignedIn));
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
 
@@ -37,7 +39,7 @@ export default function Home({ favoriteRecipes, addToFavorites }: HomeProps) {
   }, [recipes]);
 
   const isFavorite = (recipeId: number) => {
-    return favoriteRecipes.some((recipe) => recipe.id === recipeId);
+    return favorites.some((favorite) => favorite.recipeId === recipeId);
   };
 
   const mappedUserRecipes = userRecipes.map(mapUserRecipeToRecipe);
@@ -69,7 +71,13 @@ export default function Home({ favoriteRecipes, addToFavorites }: HomeProps) {
       <header className="page-header">
         <h1>Browse Recipes</h1>
         <p>Discover amazing recipes from around the world</p>
-        <p className="favorite-count">Favorites: {favoriteRecipes.length}</p>
+        <p className="favorite-count">Favorites: {favorites.length}</p>
+        {favoritesError && (
+          <p style={{ color: "crimson" }}>Favorites error: {favoritesError}</p>
+        )}
+        {favoritesLoading && Boolean(isSignedIn) && (
+          <p>Loading favorites...</p>
+        )}
       </header>
 
       {mappedUserRecipes.length > 0 && (
@@ -84,7 +92,7 @@ export default function Home({ favoriteRecipes, addToFavorites }: HomeProps) {
               <RecipeCard
                 key={`user-${recipe.id}`}
                 recipe={recipe}
-                onAddToFavorites={addToFavorites}
+                onToggleFavorite={toggleFavorite}
                 isFavorite={false}
                 canFavorite={false}
               />
@@ -103,7 +111,7 @@ export default function Home({ favoriteRecipes, addToFavorites }: HomeProps) {
           <RecipeCard
             key={recipe.id}
             recipe={recipe}
-            onAddToFavorites={addToFavorites}
+            onToggleFavorite={toggleFavorite}
             isFavorite={isFavorite(recipe.id)}
           />
         ))}

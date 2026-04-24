@@ -1,65 +1,26 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { ClerkLoaded, ClerkLoading, useAuth } from '@clerk/clerk-react';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import AddRecipe from './pages/AddRecipe';
-import type { Recipe } from '../../../shared/types/Recipe';
 import { setClerkTokenGetter } from './lib/clerkAuth';
 import ProtectedRoute from './components/ProtectedRoute';
 import Profile from './pages/Profile';
 
-const FAVORITES_STORAGE_KEY = 'favoriteRecipes';
-
 function App() {
   const { getToken } = useAuth();
-  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>(() => {
-    if (typeof window === 'undefined') {
-      return [];
-    }
 
-    const storedFavorites = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
-
-    if (!storedFavorites) {
-      return [];
-    }
-
-    try {
-      return JSON.parse(storedFavorites) as Recipe[];
-    } catch {
-      window.localStorage.removeItem(FAVORITES_STORAGE_KEY);
-      return [];
-    }
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      FAVORITES_STORAGE_KEY,
-      JSON.stringify(favoriteRecipes)
-    );
-  }, [favoriteRecipes]);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     setClerkTokenGetter(getToken);
 
     return () => {
       setClerkTokenGetter(async () => null);
     };
   }, [getToken]);
-
-
-  const addToFavorites = (recipe: Recipe) => {
-    setFavoriteRecipes(prev =>
-      prev.some(r => r.id === recipe.id) ? prev : [...prev, recipe]
-    );
-  };
-
-  const removeFromFavorites = (id: number) => {
-    setFavoriteRecipes(prev => prev.filter(r => r.id !== id));
-  };
 
   return (
     <>
@@ -79,10 +40,7 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <Home
-                    favoriteRecipes={favoriteRecipes}
-                    addToFavorites={addToFavorites}
-                  />
+                  <Home />
                 }
               />
 
@@ -90,10 +48,7 @@ function App() {
                 path="/favorites"
                 element={
                   <ProtectedRoute>
-                    <Favorites
-                      favoriteRecipes={favoriteRecipes}
-                      removeFromFavorites={removeFromFavorites}
-                    />
+                    <Favorites />
                   </ProtectedRoute>
                 }
               />
@@ -111,7 +66,7 @@ function App() {
                 path="/profile"
                 element={
                   <ProtectedRoute>
-                    <Profile favoriteCount={favoriteRecipes.length} />
+                    <Profile />
                   </ProtectedRoute>
                 }
               />

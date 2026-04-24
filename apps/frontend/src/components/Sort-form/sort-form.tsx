@@ -14,7 +14,7 @@ export default function SortForm({ recipes, setSortedRecipes }: SortFormProps) {
     const value = e.target.value;
     setSortBy(value);
  
-    let sorted = [...recipes];
+    const sorted = [...recipes];
  
     if (value === 'name') {
       sorted.sort((a, b) => a.title.localeCompare(b.title));
